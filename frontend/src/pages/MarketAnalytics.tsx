@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import CreateClaimModal from "../components/CreateClaimModal"; 
+import { api } from "../api"; 
 import './MarketAnalytics.css';
 
 // --- ICONS ---
@@ -11,10 +13,17 @@ const IconZap = () => (
 );
 
 export default function MarketAnalytics() {
-  const [stats] = useState({
+  const [stats, setStats] = useState({
     tvl: 3540,
     sentiment: 72 
   });
+
+  const [showCreate, setShowCreate] = useState(false);
+
+  const handleCreated = () => {
+    api.getAnalytics().then(data => setStats(data)); 
+    setShowCreate(false);
+  };
 
   return (
     <div className="page">
@@ -69,25 +78,26 @@ export default function MarketAnalytics() {
         </div>
 
         {/* CTA Card */}
-        <div className="card col-span-2" style={{ 
-          padding: '24px', 
-          background: 'linear-gradient(135deg, #2fd07a, #1f9d55)', 
-          color: 'white',
-          border: 'none',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center'
-        }}>
-          <h3 style={{ fontSize: '20px', fontWeight: 800, marginBottom: '8px' }}>Start Earning</h3>
-          <p style={{ fontSize: '13px', marginBottom: '16px', opacity: 0.9 }}>
-            Predict market outcomes and earn reputation across the network.
-          </p>
-          <button className="btn-primary" style={{ background: 'white', color: '#1f9d55', border: 'none', width: 'fit-content' }}>
-            CREATE NEW CLAIM
-          </button>
+        {/* CTA Card */}
+        <div className="card col-span-2 cta-card">
+          <div className="cta-content">
+            <h3 className="cta-title">Start Earning</h3>
+            <p className="cta-description">
+              Predict market outcomes and earn reputation across the network.
+            </p>
+            <button className="btn btn-green mt-3" onClick={() => setShowCreate(true)}>
+              + New Claim
+            </button>
+          </div>
         </div>
 
       </div>
+      <CreateClaimModal 
+        open={showCreate} 
+        onClose={() => setShowCreate(false)} 
+        onCreated={handleCreated} 
+      />
+
     </div>
   );
 }
