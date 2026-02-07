@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.routers import claims, users, positions
 
-app = FastAPI(title="Belief Graph API")
+app = FastAPI(title="Oracle API")
 
 app.add_middleware(
     CORSMiddleware,
