@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { api, type ClaimWithOdds, type Position } from "../api";
 import ClaimCard from "../components/ClaimCard";
 import CreateClaimModal from "../components/CreateClaimModal";
@@ -10,6 +11,7 @@ type SortMode = "trending" | "recent" | "ending";
 type FilterStatus = "all" | "active" | "resolved";
 
 export default function Feed() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [claims, setClaims] = useState<ClaimWithOdds[]>([]);
   const [positions, setPositions] = useState<Position[]>([]);
   const [sort, setSort] = useState<SortMode>("trending");
@@ -49,6 +51,14 @@ export default function Feed() {
   useEffect(() => {
     void load();
   }, []);
+
+  useEffect(() => {
+    if (searchParams.get("create") === "true") {
+      setShowCreate(true);
+      // Immediately clear the param so the modal doesn't re-open on refresh
+      setSearchParams({}, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
 
   const categories = useMemo(() => {
     const unique = new Set(claims.map((c) => c.category));
