@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(findstr:*)"
+      "Bash(findstr:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nMerge fidel_branch into main\n\nBrings in all features: wallet auth, oracle resolution, UI improvements,\nclaim badges, timeline, profile enhancements.\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git pull:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nMerge remote main into local main\n\nResolved conflicts in generated files \\(pyc, node_modules, .vite cache\\)\nby accepting deletions — these should not be tracked.\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(npx tsc:*)"
     ]
   }
 }

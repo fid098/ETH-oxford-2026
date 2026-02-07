@@ -7,14 +7,16 @@ export default function Navbar() {
   const location = useLocation();
   const {
     currentUser,
+    setCurrentUser,
+    users,
     walletStatus,
     walletError,
     walletAddress,
   } = useCurrentUser();
 
-  const isWalletUser = currentUser.startsWith("0x");
+  const isWalletUser = walletStatus === "authenticated" && walletAddress;
   const avatarLabel = isWalletUser ? "W" : currentUser[0].toUpperCase();
-  const displayName = isWalletUser
+  const displayName = currentUser.startsWith("0x")
     ? `${currentUser.slice(0, 6)}...${currentUser.slice(-4)}`
     : currentUser;
 
@@ -59,10 +61,28 @@ export default function Navbar() {
               </span>
             )}
           </div>
-          <Link to={`/user/${currentUser}`} className="user-chip">
-            <div className="user-avatar">{avatarLabel}</div>
-            <span>{displayName}</span>
-          </Link>
+          {isWalletUser ? (
+            <Link to={`/user/${currentUser}`} className="user-chip">
+              <div className="user-avatar">{avatarLabel}</div>
+              <span>{displayName}</span>
+            </Link>
+          ) : (
+            <div className="user-select-group">
+              <select
+                className="user-select-dropdown"
+                value={currentUser}
+                onChange={(e) => setCurrentUser(e.target.value)}
+              >
+                {users.map((u) => (
+                  <option key={u} value={u}>{u}</option>
+                ))}
+              </select>
+              <Link to={`/user/${currentUser}`} className="user-chip">
+                <div className="user-avatar">{avatarLabel}</div>
+                <span>{displayName}</span>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </nav>

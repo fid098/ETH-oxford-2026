@@ -158,16 +158,16 @@
   margin-top: 12px;
   padding: 10px 12px;
   border-radius: var(--radius-md);
-  border: 1px solid var(--accent);
-  background: rgba(31, 157, 85, 0.12);
-  color: var(--text-secondary);
+  border: 1px solid rgba(180, 35, 24, 0.4);
+  background: rgba(180, 35, 24, 0.08);
+  color: #7f1d1d;
   font-size: 13px;
 }
 
 input[aria-invalid="true"],
 textarea[aria-invalid="true"] {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-glow);
+  border-color: #b42318;
+  box-shadow: 0 0 0 3px rgba(180, 35, 24, 0.15);
 }
 
 @keyframes fade-in {

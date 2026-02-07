@@ -124,6 +124,22 @@
   font-size: 12px;
 }
 
+.user-select-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-select-dropdown {
+  padding: 6px 10px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 12px;
+  cursor: pointer;
+}
+
 .user-chip {
   display: flex;
   align-items: center;
