@@ -36,11 +36,47 @@
 
 .feed-controls {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 12px;
   margin-bottom: 20px;
   padding-bottom: 16px;
   border-bottom: 1px solid var(--border);
+}
+
+.feed-controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.feed-search {
+  flex: 1;
+  min-width: 220px;
+}
+
+.feed-search input {
+  width: 100%;
+}
+
+.feed-category {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.feed-category-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.feed-category select {
+  width: auto;
+  min-width: 180px;
 }
 
 .filter-tabs,
@@ -80,6 +116,16 @@
   gap: 20px;
 }
 
+.feed-empty {
+  text-align: center;
+  padding: 48px 24px;
+  border: 1px dashed var(--border-light);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
 .feed-grid > * {
   animation: card-in 0.4s ease both;
 }
@@ -109,9 +155,20 @@
   }
 
   .feed-controls {
+    align-items: stretch;
+  }
+
+  .feed-controls-row {
     flex-direction: column;
-    gap: 12px;
-    align-items: flex-start;
+    align-items: stretch;
+  }
+
+  .feed-category {
+    justify-content: space-between;
+  }
+
+  .feed-category select {
+    width: 100%;
   }
 
   .feed-grid {

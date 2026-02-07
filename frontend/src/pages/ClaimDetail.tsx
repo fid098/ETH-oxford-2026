@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { api, type ClaimWithOdds, type Position } from "../api";
 import StakingWidget from "../components/StakingWidget";
 import BeliefGraph from "../components/BeliefGraph";
+import { ClaimDetailSkeleton } from "../components/LoadingSkeletons";
 import "./ClaimDetail.css";
 
 export default function ClaimDetail() {
@@ -23,7 +24,11 @@ export default function ClaimDetail() {
   useEffect(load, [id]);
 
   if (loading || !claim) {
-    return <div className="page feed-loading">Loading...</div>;
+    return (
+      <div className="page">
+        <ClaimDetailSkeleton />
+      </div>
+    );
   }
 
   const yesPositions = positions.filter((p) => p.side === "yes");

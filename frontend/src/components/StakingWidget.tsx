@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { api } from "../api";
+import { toast } from "./Toast";
 import "./StakingWidget.css";
 
 interface Props {
@@ -26,9 +27,12 @@ export default function StakingWidget({ claimId, onSuccess }: Props) {
         stake,
         confidence,
       });
+      toast(`Staked ${stake} pts on ${side === "yes" ? "True" : "False"}`, "success");
       onSuccess();
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : "Failed to stake");
+      const msg = e instanceof Error ? e.message : "Failed to stake";
+      setError(msg);
+      toast(msg, "error");
     } finally {
       setLoading(false);
     }
@@ -49,6 +53,9 @@ export default function StakingWidget({ claimId, onSuccess }: Props) {
           <option value="charlie">charlie</option>
           <option value="diana">diana</option>
           <option value="eve">eve</option>
+          <option value="frank">frank</option>
+          <option value="grace">grace</option>
+          <option value="hector">hector</option>
         </select>
       </div>
 

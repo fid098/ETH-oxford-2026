@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api, type UserProfile } from "../api";
+import { LeaderboardSkeleton } from "../components/LoadingSkeletons";
 import "./Leaderboard.css";
 
 export default function Leaderboard() {
@@ -29,7 +30,7 @@ export default function Leaderboard() {
       </p>
 
       {loading ? (
-        <div className="feed-loading">Loading...</div>
+        <LeaderboardSkeleton />
       ) : (
         <div className="leaderboard-list">
           {sorted.map((user, i) => (

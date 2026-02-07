@@ -1,26 +1,79 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { api, type UserProfile as UserProfileType } from "../api";
+import { api, type UserProfile as UserProfileType, type ClaimWithOdds } from "../api";
+import { ProfileSkeleton } from "../components/LoadingSkeletons";
 import "./UserProfile.css";
 
 export default function UserProfile() {
   const { username } = useParams<{ username: string }>();
   const [user, setUser] = useState<UserProfileType | null>(null);
+  const [claims, setClaims] = useState<ClaimWithOdds[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!username) return;
-    api.getUser(username).then((u) => {
+    setLoading(true);
+    Promise.all([api.getUser(username), api.getClaims()]).then(([u, c]) => {
       setUser(u);
+      setClaims(c);
       setLoading(false);
     });
   }, [username]);
 
+  const claimById = useMemo(() => {
+    const map = new Map<string, ClaimWithOdds>();
+    for (const claim of claims) {
+      map.set(claim.id, claim);
+    }
+    return map;
+  }, [claims]);
+
   if (loading || !user) {
-    return <div className="page feed-loading">Loading...</div>;
+    return (
+      <div className="page">
+        <ProfileSkeleton />
+      </div>
+    );
   }
 
   const categories = Object.entries(user.category_stats);
+
+  const calibrationBuckets = [
+    { min: 0.5, max: 0.59, label: "50-59%" },
+    { min: 0.6, max: 0.69, label: "60-69%" },
+    { min: 0.7, max: 0.79, label: "70-79%" },
+    { min: 0.8, max: 0.89, label: "80-89%" },
+    { min: 0.9, max: 0.99, label: "90-99%" },
+  ];
+
+  const calibrationData = calibrationBuckets.map((bucket) => {
+    const resolved = user.resolved_positions
+      .map((p) => {
+        const claim = claimById.get(p.claim_id);
+        if (!claim || claim.status === "active") return null;
+        const resolvedSide = claim.status === "resolved_yes" ? "yes" : "no";
+        const correct = p.side === resolvedSide;
+        return { confidence: p.confidence, correct };
+      })
+      .filter((p): p is { confidence: number; correct: boolean } => Boolean(p))
+      .filter((p) => p.confidence >= bucket.min && p.confidence <= bucket.max);
+
+    const total = resolved.length;
+    const correctCount = resolved.filter((p) => p.correct).length;
+    const accuracy = total ? Math.round((correctCount / total) * 100) : 0;
+    const avgConfidence = total
+      ? Math.round((resolved.reduce((s, p) => s + p.confidence, 0) / total) * 100)
+      : Math.round(((bucket.min + bucket.max) / 2) * 100);
+
+    return {
+      ...bucket,
+      total,
+      accuracy,
+      avgConfidence,
+    };
+  });
+
+  const hasCalibration = calibrationData.some((d) => d.total > 0);
 
   return (
     <div className="page">
@@ -75,7 +128,7 @@ export default function UserProfile() {
                       width: `${stats.accuracy}%`,
                       background: stats.accuracy >= 60
                         ? "linear-gradient(90deg, #1f9d55, #67d18f)"
-                        : "linear-gradient(90deg, #ef4444, #f87171)",
+                        : "linear-gradient(90deg, #0f6b3f, #1f8a52)",
                     }}
                   />
                 </div>
@@ -87,6 +140,46 @@ export default function UserProfile() {
           </div>
         </div>
       )}
+
+      <div className="profile-section">
+        <h2 className="section-title">Confidence Calibration</h2>
+        {hasCalibration ? (
+          <div className="calibration-chart card">
+            <div className="calibration-legend">
+              <span className="calibration-legend-item">
+                <span className="calibration-dot" />
+                Actual accuracy
+              </span>
+              <span className="calibration-legend-item">
+                <span className="calibration-marker-dot" />
+                Avg confidence
+              </span>
+            </div>
+            <div className="calibration-rows">
+              {calibrationData.map((bucket) => (
+                <div key={bucket.label} className={`calibration-row ${bucket.total === 0 ? "is-empty" : ""}`}>
+                  <span className="calibration-label">{bucket.label}</span>
+                  <div className="calibration-track">
+                    <div className="calibration-fill" style={{ width: `${bucket.accuracy}%` }} />
+                    {bucket.total > 0 && (
+                      <span className="calibration-marker" style={{ left: `${bucket.avgConfidence}%` }} />
+                    )}
+                  </div>
+                  <span className="calibration-meta">
+                    {bucket.total === 0
+                      ? "No data"
+                      : `${bucket.accuracy}% actual - ${bucket.avgConfidence}% conf - ${bucket.total} bets`}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="card">
+            <p className="text-muted">Not enough resolved positions to calibrate yet.</p>
+          </div>
+        )}
+      </div>
 
       <div className="profile-section">
         <h2 className="section-title">
@@ -102,7 +195,14 @@ export default function UserProfile() {
                   <span className={`profile-pos-side ${p.side === "yes" ? "text-green" : "text-red"}`}>
                     {p.side === "yes" ? "TRUE" : "FALSE"}
                   </span>
-                  <span className="text-secondary">{p.claim_id}</span>
+                  <div className="profile-pos-claim">
+                    <span className="profile-pos-title">
+                      {claimById.get(p.claim_id)?.title ?? p.claim_id}
+                    </span>
+                    <span className="profile-pos-meta text-secondary">
+                      {claimById.get(p.claim_id)?.category ?? "Unknown category"} - {p.claim_id}
+                    </span>
+                  </div>
                 </div>
                 <div className="profile-pos-right">
                   <span className="font-semibold">{p.stake} pts</span>
@@ -128,7 +228,14 @@ export default function UserProfile() {
                   <span className={`profile-pos-side ${p.side === "yes" ? "text-green" : "text-red"}`}>
                     {p.side === "yes" ? "TRUE" : "FALSE"}
                   </span>
-                  <span className="text-secondary">{p.claim_id}</span>
+                  <div className="profile-pos-claim">
+                    <span className="profile-pos-title">
+                      {claimById.get(p.claim_id)?.title ?? p.claim_id}
+                    </span>
+                    <span className="profile-pos-meta text-secondary">
+                      {claimById.get(p.claim_id)?.category ?? "Unknown category"} - {p.claim_id}
+                    </span>
+                  </div>
                 </div>
                 <div className="profile-pos-right">
                   <span className="font-semibold">{p.stake} pts</span>

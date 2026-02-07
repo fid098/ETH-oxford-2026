@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import ToastContainer from "./components/Toast";
 import Feed from "./pages/Feed";
 import ClaimDetail from "./pages/ClaimDetail";
 import UserProfile from "./pages/UserProfile";
@@ -9,6 +10,7 @@ function App() {
   return (
     <>
       <Navbar />
+      <ToastContainer />
       <div className="app-container">
         <Routes>
           <Route path="/" element={<Feed />} />
