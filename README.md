@@ -52,29 +52,29 @@ Chainlink Price Feeds (Ethereum mainnet via Web3 RPC)
 
 ## Environment Variables
 
-| Variable | Purpose | Default |
-|----------|---------|---------|
-| `WEB3_PROVIDER_URL` | Ethereum mainnet RPC for Chainlink oracle reads | `https://cloudflare-eth.com` |
-| `VITE_WALLETCONNECT_PROJECT_ID` | WalletConnect project ID for RainbowKit | (none) |
+| Variable                        | Purpose                                         | Default                      |
+| ------------------------------- | ----------------------------------------------- | ---------------------------- |
+| `WEB3_PROVIDER_URL`             | Ethereum mainnet RPC for Chainlink oracle reads | `https://cloudflare-eth.com` |
+| `VITE_WALLETCONNECT_PROJECT_ID` | WalletConnect project ID for RainbowKit         | (none)                       |
 
 ## API Routes
 
-| Method | Path | Purpose |
-|--------|------|---------|
-| GET | `/api/claims/` | List all claims with odds |
-| GET | `/api/claims/{id}` | Single claim with odds |
-| POST | `/api/claims/` | Create claim |
-| DELETE | `/api/claims/{id}?username=` | Delete empty claim (owner only) |
-| POST | `/api/claims/{id}/resolve` | Manual resolve |
-| GET | `/api/claims/{id}/oracle-status` | Live oracle price data |
-| POST | `/api/claims/{id}/check-oracle` | Trigger oracle resolution check |
-| GET | `/api/users/` | All users with profiles |
-| GET | `/api/users/{username}` | Single user with category stats |
-| GET | `/api/positions/` | All positions |
-| POST | `/api/positions/` | Create position (deducts points) |
-| GET | `/api/auth/nonce?address=` | Get SIWE nonce (5-min TTL) |
-| POST | `/api/auth/connect-wallet` | Verify SIWE signature |
-| GET | `/api/health` | Health check |
+| Method | Path                             | Purpose                          |
+| ------ | -------------------------------- | -------------------------------- |
+| GET    | `/api/claims/`                   | List all claims with odds        |
+| GET    | `/api/claims/{id}`               | Single claim with odds           |
+| POST   | `/api/claims/`                   | Create claim                     |
+| DELETE | `/api/claims/{id}?username=`     | Delete empty claim (owner only)  |
+| POST   | `/api/claims/{id}/resolve`       | Manual resolve                   |
+| GET    | `/api/claims/{id}/oracle-status` | Live oracle price data           |
+| POST   | `/api/claims/{id}/check-oracle`  | Trigger oracle resolution check  |
+| GET    | `/api/users/`                    | All users with profiles          |
+| GET    | `/api/users/{username}`          | Single user with category stats  |
+| GET    | `/api/positions/`                | All positions                    |
+| POST   | `/api/positions/`                | Create position (deducts points) |
+| GET    | `/api/auth/nonce?address=`       | Get SIWE nonce (5-min TTL)       |
+| POST   | `/api/auth/connect-wallet`       | Verify SIWE signature            |
+| GET    | `/api/health`                    | Health check                     |
 
 ## User Flows
 

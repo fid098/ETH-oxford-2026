@@ -86,12 +86,12 @@
 
 .wallet-status {
   font-size: 11px;
-  color: var(--text-muted);
+  color: #006400;
   white-space: nowrap;
 }
 
 .wallet-ok {
-  color: var(--accent);
+  color: #006400;
   font-weight: 600;
 }
 
