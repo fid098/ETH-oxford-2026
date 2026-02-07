@@ -10,16 +10,27 @@ export default function UserProfile() {
   const [user, setUser] = useState<UserProfileType | null>(null);
   const [claims, setClaims] = useState<ClaimWithOdds[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
-  useEffect(() => {
+  const loadProfile = () => {
     if (!username) return;
     setLoading(true);
+    setLoadError(null);
     Promise.all([api.getUser(username), api.getClaims()]).then(([u, c]) => {
       setUser(u);
       setClaims(c);
       setLoading(false);
+    }).catch((err) => {
+      const msg = err instanceof Error ? err.message : "Failed to load profile";
+      setLoadError(msg);
+      toast(msg, "error");
+      setLoading(false);
     });
+  };
+
+  useEffect(() => {
+    loadProfile();
   }, [username]);
 
   const claimById = useMemo(() => {
@@ -30,10 +41,24 @@ export default function UserProfile() {
     return map;
   }, [claims]);
 
-  if (loading || !user) {
+  if (loading) {
     return (
       <div className="page">
         <ProfileSkeleton />
+      </div>
+    );
+  }
+
+  if (loadError || !user) {
+    return (
+      <div className="page">
+        <Link to="/" className="back-link">&larr; Back to Feed</Link>
+        <div className="error-state card">
+          <div className="error-state-icon">!</div>
+          <h3 className="error-state-title">Failed to load profile</h3>
+          <p className="error-state-msg">{loadError ?? "User not found"}</p>
+          <button className="btn btn-green" onClick={loadProfile}>Retry</button>
+        </div>
       </div>
     );
   }

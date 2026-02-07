@@ -39,9 +39,21 @@ class OracleResult:
     updated_at: int
 
 
+def _get_provider_url() -> str:
+    return os.getenv("WEB3_PROVIDER_URL", "https://cloudflare-eth.com")
+
+
 def _get_web3() -> Web3:
-    provider_url = os.getenv("WEB3_PROVIDER_URL", "https://cloudflare-eth.com")
-    return Web3(Web3.HTTPProvider(provider_url))
+    return Web3(Web3.HTTPProvider(_get_provider_url()))
+
+
+def get_provider_label() -> str:
+    url = _get_provider_url()
+    try:
+        from urllib.parse import urlparse
+        return urlparse(url).hostname or url
+    except Exception:
+        return url
 
 
 def get_chainlink_price(feed: str) -> OracleResult:

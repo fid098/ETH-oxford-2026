@@ -12,6 +12,7 @@ export default function ClaimDetail() {
   const [claim, setClaim] = useState<ClaimWithOdds | null>(null);
   const [positions, setPositions] = useState<Position[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [oracleStatus, setOracleStatus] = useState<{
     feed: string;
     comparator: ">" | ">=" | "<" | "<=";
@@ -20,18 +21,23 @@ export default function ClaimDetail() {
     updated_at: number;
     would_resolve: boolean;
     resolution_date: string | null;
+    network: string;
+    rpc: string;
   } | null>(null);
   const [oracleError, setOracleError] = useState<string | null>(null);
   const [oracleChecking, setOracleChecking] = useState(false);
 
   const load = () => {
     if (!id) return;
+    setLoadError(null);
     Promise.all([api.getClaim(id), api.getPositions()]).then(([c, allPos]) => {
       setClaim(c);
       setPositions(allPos.filter((p) => p.claim_id === id));
       setLoading(false);
     }).catch((err) => {
-      toast(err instanceof Error ? err.message : "Failed to load claim", "error");
+      const msg = err instanceof Error ? err.message : "Failed to load claim";
+      setLoadError(msg);
+      toast(msg, "error");
       setLoading(false);
     });
   };
@@ -62,10 +68,24 @@ export default function ClaimDetail() {
     };
   }, [claim?.id, claim?.resolution_type]);
 
-  if (loading || !claim) {
+  if (loading) {
     return (
       <div className="page">
         <ClaimDetailSkeleton />
+      </div>
+    );
+  }
+
+  if (loadError || !claim) {
+    return (
+      <div className="page">
+        <Link to="/" className="back-link">&larr; Back to Feed</Link>
+        <div className="error-state card">
+          <div className="error-state-icon">!</div>
+          <h3 className="error-state-title">Failed to load claim</h3>
+          <p className="error-state-msg">{loadError ?? "Claim not found"}</p>
+          <button className="btn btn-green" onClick={load}>Retry</button>
+        </div>
       </div>
     );
   }
@@ -139,7 +159,12 @@ export default function ClaimDetail() {
                 <span className="badge badge-category">Chainlink</span>
               </div>
               {oracleError && (
-                <div className="oracle-error">{oracleError}</div>
+                <div className="oracle-error">
+                  <span>{oracleError}</span>
+                  <button className="btn btn-outline" style={{ marginLeft: 12, padding: "4px 12px", fontSize: 12 }} onClick={handleOracleCheck}>
+                    Retry
+                  </button>
+                </div>
               )}
               <div className="oracle-grid">
                 <div>
@@ -155,19 +180,37 @@ export default function ClaimDetail() {
                   </span>
                 </div>
                 <div>
-                  <span className="oracle-label">Current</span>
+                  <span className="oracle-label">Current Value</span>
                   <span className="oracle-value">
-                    {oracleStatus ? oracleStatus.current_value.toFixed(2) : "Loading..."}
+                    {oracleStatus
+                      ? `$${oracleStatus.current_value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+                      : "Loading..."}
                   </span>
                 </div>
                 <div>
-                  <span className="oracle-label">Resolution Date</span>
+                  <span className="oracle-label">Last Updated</span>
+                  <span className="oracle-value">
+                    {oracleStatus
+                      ? new Date(oracleStatus.updated_at * 1000).toLocaleString()
+                      : "Loading..."}
+                  </span>
+                </div>
+                <div>
+                  <span className="oracle-label">Will Resolve On</span>
                   <span className="oracle-value">
                     {oracleStatus?.resolution_date
                       ? new Date(oracleStatus.resolution_date).toLocaleString()
                       : claim.resolution_date
                         ? new Date(claim.resolution_date).toLocaleString()
                         : "N/A"}
+                  </span>
+                </div>
+                <div>
+                  <span className="oracle-label">Network / RPC</span>
+                  <span className="oracle-value">
+                    {oracleStatus
+                      ? `${oracleStatus.network} (${oracleStatus.rpc})`
+                      : "Loading..."}
                   </span>
                 </div>
               </div>
@@ -228,7 +271,9 @@ export default function ClaimDetail() {
                   </div>
                 ))}
                 {yesPositions.length === 0 && (
-                  <p className="text-muted" style={{ padding: 16, fontSize: 13 }}>No believers yet</p>
+                  <div className="card" style={{ padding: 20, textAlign: "center" }}>
+                    <p className="text-muted" style={{ fontSize: 13 }}>No believers yet. Be the first to stake on True.</p>
+                  </div>
                 )}
               </div>
               <div>
@@ -251,7 +296,9 @@ export default function ClaimDetail() {
                   </div>
                 ))}
                 {noPositions.length === 0 && (
-                  <p className="text-muted" style={{ padding: 16, fontSize: 13 }}>No skeptics yet</p>
+                  <div className="card" style={{ padding: 20, textAlign: "center" }}>
+                    <p className="text-muted" style={{ fontSize: 13 }}>No skeptics yet. Be the first to stake on False.</p>
+                  </div>
                 )}
               </div>
             </div>

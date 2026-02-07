@@ -8,15 +8,24 @@ import "./Leaderboard.css";
 export default function Leaderboard() {
   const [users, setUsers] = useState<UserProfile[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
 
-  useEffect(() => {
+  const loadLeaderboard = () => {
+    setLoading(true);
+    setLoadError(null);
     api.getUsers().then((data) => {
       setUsers(data);
       setLoading(false);
     }).catch((err) => {
-      toast(err instanceof Error ? err.message : "Failed to load leaderboard", "error");
+      const msg = err instanceof Error ? err.message : "Failed to load leaderboard";
+      setLoadError(msg);
+      toast(msg, "error");
       setLoading(false);
     });
+  };
+
+  useEffect(() => {
+    loadLeaderboard();
   }, []);
 
   const sorted = [...users].sort((a, b) => {
@@ -35,6 +44,19 @@ export default function Leaderboard() {
 
       {loading ? (
         <LeaderboardSkeleton />
+      ) : loadError ? (
+        <div className="error-state card">
+          <div className="error-state-icon">!</div>
+          <h3 className="error-state-title">Failed to load leaderboard</h3>
+          <p className="error-state-msg">{loadError}</p>
+          <button className="btn btn-green" onClick={loadLeaderboard}>Retry</button>
+        </div>
+      ) : sorted.length === 0 ? (
+        <div className="empty-state">
+          <div className="empty-state-icon">{"\uD83C\uDFC6"}</div>
+          <h3 className="empty-state-title">No predictors yet</h3>
+          <p className="empty-state-msg">The leaderboard will populate once users start taking positions on claims.</p>
+        </div>
       ) : (
         <div className="leaderboard-list">
           {sorted.map((user, i) => (

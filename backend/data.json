@@ -47,6 +47,13 @@
       "display_name": "Hector Reyes",
       "points": 890,
       "created_at": "2025-01-22T10:15:00Z"
+    },
+    {
+      "username": "0x4e022712847bD731f8342096cDb1Efc624cDb72D",
+      "display_name": "0x4e02...b72D",
+      "wallet_address": "0x4e022712847bD731f8342096cDb1Efc624cDb72D",
+      "points": 834.0,
+      "created_at": "2026-02-07 20:16:50.710282"
     }
   ],
   "claims": [
@@ -56,7 +63,8 @@
       "description": "BTC/USD price will reach or exceed $150,000 on any major exchange before December 31, 2026.",
       "category": "crypto",
       "status": "active",
-      "created_at": "2025-02-01T08:00:00Z"
+      "created_at": "2025-02-01T08:00:00Z",
+      "created_by": "alice"
     },
     {
       "id": "claim-2",
@@ -64,7 +72,8 @@
       "description": "OpenAI will publicly release a model officially named GPT-5 before July 1, 2026.",
       "category": "ai",
       "status": "active",
-      "created_at": "2025-02-02T12:00:00Z"
+      "created_at": "2025-02-02T12:00:00Z",
+      "created_by": "charlie"
     },
     {
       "id": "claim-3",
@@ -72,7 +81,8 @@
       "description": "Ethereum's total market capitalization will exceed Bitcoin's at any point in 2026.",
       "category": "crypto",
       "status": "active",
-      "created_at": "2025-02-03T15:30:00Z"
+      "created_at": "2025-02-03T15:30:00Z",
+      "created_by": "bob"
     },
     {
       "id": "claim-4",
@@ -81,7 +91,8 @@
       "category": "policy",
       "status": "resolved_yes",
       "created_at": "2025-01-20T10:00:00Z",
-      "resolved_at": "2025-12-15T18:00:00Z"
+      "resolved_at": "2025-12-15T18:00:00Z",
+      "created_by": "diana"
     },
     {
       "id": "claim-5",
@@ -90,7 +101,8 @@
       "category": "crypto",
       "status": "resolved_no",
       "created_at": "2025-01-25T09:00:00Z",
-      "resolved_at": "2025-11-30T12:00:00Z"
+      "resolved_at": "2025-11-30T12:00:00Z",
+      "created_by": "eve"
     },
     {
       "id": "claim-6",
@@ -98,7 +110,8 @@
       "description": "An AI system will fool >50% of human judges in a standardized Turing Test competition in 2026.",
       "category": "ai",
       "status": "active",
-      "created_at": "2025-03-10T09:00:00Z"
+      "created_at": "2025-03-10T09:00:00Z",
+      "created_by": "frank"
     },
     {
       "id": "claim-7",
@@ -106,7 +119,8 @@
       "description": "The US Congress will pass comprehensive stablecoin legislation before December 31, 2026.",
       "category": "policy",
       "status": "active",
-      "created_at": "2025-03-15T14:00:00Z"
+      "created_at": "2025-03-15T14:00:00Z",
+      "created_by": "alice"
     },
     {
       "id": "claim-8",
@@ -114,7 +128,8 @@
       "description": "Apple will announce and publicly beta-launch its own AI-powered web search engine by end of 2026.",
       "category": "tech",
       "status": "active",
-      "created_at": "2025-04-01T11:00:00Z"
+      "created_at": "2025-04-01T11:00:00Z",
+      "created_by": "grace"
     },
     {
       "id": "claim-9",
@@ -123,7 +138,8 @@
       "category": "science",
       "status": "resolved_yes",
       "created_at": "2025-01-10T08:00:00Z",
-      "resolved_at": "2025-09-20T16:00:00Z"
+      "resolved_at": "2025-09-20T16:00:00Z",
+      "created_by": "charlie"
     },
     {
       "id": "claim-10",
@@ -132,7 +148,8 @@
       "category": "science",
       "status": "resolved_yes",
       "created_at": "2025-01-05T07:00:00Z",
-      "resolved_at": "2025-12-28T10:00:00Z"
+      "resolved_at": "2025-12-28T10:00:00Z",
+      "created_by": "hector"
     },
     {
       "id": "claim-11",
@@ -140,7 +157,8 @@
       "description": "Tesla will achieve and publicly release a certified SAE Level 5 autonomous driving system.",
       "category": "tech",
       "status": "active",
-      "created_at": "2025-05-01T10:00:00Z"
+      "created_at": "2025-05-01T10:00:00Z",
+      "created_by": "bob"
     },
     {
       "id": "claim-12",
@@ -148,7 +166,26 @@
       "description": "Average Ethereum L1 transaction gas fees will stay below $0.01 for a full calendar month in 2026.",
       "category": "crypto",
       "status": "active",
-      "created_at": "2025-05-15T16:00:00Z"
+      "created_at": "2025-05-15T16:00:00Z",
+      "created_by": "eve"
+    },
+    {
+      "id": "claim-2a16a177",
+      "title": "The bitcoin game is going to blow up",
+      "description": "I have the feeling that AI is going to have a huge say in the improvement of bitcoin",
+      "category": "crypto",
+      "status": "active",
+      "created_at": "2026-02-07 20:21:41.882532",
+      "resolved_at": null,
+      "created_by": "0x4e022712847bD731f8342096cDb1Efc624cDb72D",
+      "resolution_type": "oracle",
+      "resolution_date": "2026-02-07 20:21:00+00:00",
+      "oracle_config": {
+        "type": "chainlink_price",
+        "feed": "BTC/USD",
+        "comparator": ">",
+        "target": 100.0
+      }
     }
   ],
   "positions": [
@@ -159,7 +196,8 @@
       "side": "yes",
       "stake": 100,
       "confidence": 0.75,
-      "created_at": "2025-02-01T10:00:00Z"
+      "created_at": "2025-02-01T10:00:00Z",
+      "reasoning": "Institutional adoption is accelerating. ETF inflows alone could push BTC past $150k."
     },
     {
       "id": "pos-2",
@@ -168,7 +206,8 @@
       "side": "no",
       "stake": 50,
       "confidence": 0.6,
-      "created_at": "2025-02-01T11:00:00Z"
+      "created_at": "2025-02-01T11:00:00Z",
+      "reasoning": "We've seen this hype cycle before. Macro headwinds and regulatory pressure will cap the upside."
     },
     {
       "id": "pos-3",
@@ -195,7 +234,8 @@
       "side": "yes",
       "stake": 200,
       "confidence": 0.85,
-      "created_at": "2025-02-02T14:00:00Z"
+      "created_at": "2025-02-02T14:00:00Z",
+      "reasoning": "OpenAI has been teasing next-gen models. Internal timelines point to H1 2026 release."
     },
     {
       "id": "pos-6",
@@ -222,7 +262,8 @@
       "side": "no",
       "stake": 100,
       "confidence": 0.9,
-      "created_at": "2025-02-03T16:00:00Z"
+      "created_at": "2025-02-03T16:00:00Z",
+      "reasoning": "The flippening has been predicted for years. Bitcoin's network effect is too strong."
     },
     {
       "id": "pos-9",
@@ -303,7 +344,8 @@
       "side": "yes",
       "stake": 180,
       "confidence": 0.6,
-      "created_at": "2025-03-11T10:00:00Z"
+      "created_at": "2025-03-11T10:00:00Z",
+      "reasoning": "LLMs are already fooling people in informal tests. A structured competition seems likely."
     },
     {
       "id": "pos-18",
@@ -429,7 +471,8 @@
       "side": "no",
       "stake": 150,
       "confidence": 0.9,
-      "created_at": "2025-05-02T09:00:00Z"
+      "created_at": "2025-05-02T09:00:00Z",
+      "reasoning": "Level 5 requires handling every edge case. Tesla is still struggling with Level 3 in practice."
     },
     {
       "id": "pos-32",
@@ -484,6 +527,16 @@
       "stake": 204.0,
       "confidence": 0.78,
       "created_at": "2026-02-07T13:26:02Z",
+      "reasoning": null
+    },
+    {
+      "id": "pos-b3740f4b",
+      "claim_id": "claim-1",
+      "username": "0x4e022712847bD731f8342096cDb1Efc624cDb72D",
+      "side": "yes",
+      "stake": 166.0,
+      "confidence": 0.7,
+      "created_at": "2026-02-07 20:20:05.983819",
       "reasoning": null
     }
   ]

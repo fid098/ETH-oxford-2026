@@ -99,6 +99,8 @@ export const api = {
       updated_at: number;
       would_resolve: boolean;
       resolution_date: string | null;
+      network: string;
+      rpc: string;
     }>(`/claims/${id}/oracle-status`),
   checkOracle: (id: string) =>
     request<{

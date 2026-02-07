@@ -17,6 +17,7 @@ const wagmiConfig = getDefaultConfig({
   projectId: walletConnectProjectId,
   chains: [mainnet],
   ssr: false,
+  storage: null,
 });
 
 const queryClient = new QueryClient();

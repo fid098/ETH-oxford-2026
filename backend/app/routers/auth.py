@@ -53,11 +53,11 @@ def connect_wallet(req: ConnectWalletRequest):
     if time.time() - created_at > NONCE_TTL:
         raise HTTPException(status_code=400, detail="Missing or expired nonce")
 
+    if siwe_msg.nonce != expected_nonce:
+        raise HTTPException(status_code=400, detail="Nonce mismatch")
+
     try:
-        if hasattr(siwe_msg, "validate"):
-            siwe_msg.validate(req.signature, nonce=expected_nonce)
-        else:
-            siwe_msg.verify(req.signature, expected_nonce)
+        siwe_msg.verify(req.signature)
     except Exception as exc:
         raise HTTPException(status_code=400, detail=f"Signature validation failed: {exc}")
 

@@ -17,10 +17,12 @@ export default function Feed() {
   const [category, setCategory] = useState("all");
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [showCreate, setShowCreate] = useState(false);
 
   const load = async () => {
     setLoading(true);
+    setLoadError(null);
     const [claimsResult, positionsResult] = await Promise.allSettled([
       api.getClaims(),
       api.getPositions(),
@@ -29,7 +31,9 @@ export default function Feed() {
     if (claimsResult.status === "fulfilled") {
       setClaims(claimsResult.value);
     } else {
-      toast(claimsResult.reason?.message ?? "Failed to load claims", "error");
+      const msg = claimsResult.reason?.message ?? "Failed to load claims";
+      setLoadError(msg);
+      toast(msg, "error");
     }
 
     if (positionsResult.status === "fulfilled") {
@@ -147,10 +151,32 @@ export default function Feed() {
 
       {loading ? (
         <FeedSkeleton />
+      ) : loadError ? (
+        <div className="error-state card">
+          <div className="error-state-icon">!</div>
+          <h3 className="error-state-title">Failed to load claims</h3>
+          <p className="error-state-msg">{loadError}</p>
+          <button className="btn btn-green" onClick={() => void load()}>Retry</button>
+        </div>
       ) : (
         <div className="feed-grid">
           {sorted.length === 0 ? (
-            <div className="feed-empty">No claims match your filters.</div>
+            <div className="empty-state">
+              <div className="empty-state-icon">{normalizedQuery || filter !== "all" || category !== "all" ? "\uD83D\uDD0D" : "\uD83D\uDCDD"}</div>
+              <h3 className="empty-state-title">
+                {normalizedQuery || filter !== "all" || category !== "all"
+                  ? "No claims match your filters"
+                  : "No claims yet"}
+              </h3>
+              <p className="empty-state-msg">
+                {normalizedQuery || filter !== "all" || category !== "all"
+                  ? "Try adjusting your search or filters to find what you're looking for."
+                  : "Be the first to create a claim and stake your reputation."}
+              </p>
+              {!normalizedQuery && filter === "all" && category === "all" && (
+                <button className="btn btn-green" onClick={() => setShowCreate(true)}>+ New Claim</button>
+              )}
+            </div>
           ) : (
             sorted.map((claim) => (
               <ClaimCard key={claim.id} claim={claim} positions={positions.filter((p) => p.claim_id === claim.id)} />

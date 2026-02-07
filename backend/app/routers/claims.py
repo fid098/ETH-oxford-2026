@@ -157,6 +157,8 @@ def oracle_status(claim_id: str):
         "updated_at": result.updated_at,
         "would_resolve": would_resolve,
         "resolution_date": resolution_date.isoformat() if resolution_date else None,
+        "network": "Ethereum Mainnet",
+        "rpc": oracle.get_provider_label(),
     }
 
 

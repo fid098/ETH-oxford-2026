@@ -127,6 +127,8 @@
 }
 
 .oracle-error {
+  display: flex;
+  align-items: center;
   padding: 10px 12px;
   border-radius: var(--radius-md);
   border: 1px solid rgba(180, 35, 24, 0.3);

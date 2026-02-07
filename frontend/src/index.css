@@ -339,6 +339,66 @@ input[type="range"]::-webkit-slider-thumb {
   }
 }
 
+/* -- Error States ---------------------------------------------------- */
+
+.error-state {
+  text-align: center;
+  padding: 48px 24px;
+  max-width: 420px;
+  margin: 32px auto;
+}
+
+.error-state-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--accent-red-glow);
+  color: var(--accent-red);
+  font-size: 24px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.error-state-title {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.error-state-msg {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* -- Empty States ---------------------------------------------------- */
+
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  max-width: 420px;
+  margin: 32px auto;
+}
+
+.empty-state-icon {
+  font-size: 40px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.empty-state-title {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.empty-state-msg {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
 @media (max-width: 768px) {
   .grid-2 {
     grid-template-columns: 1fr;

@@ -27,6 +27,7 @@ export function CurrentUserProvider({ children }: { children: ReactNode }) {
   >("disconnected");
   const [walletError, setWalletError] = useState<string | null>(null);
   const [walletAuthedAddress, setWalletAuthedAddress] = useState<string | null>(null);
+  const [walletUsername, setWalletUsername] = useState<string | null>(null);
 
   const { address, isConnected } = useAccount();
   const { signMessageAsync } = useSignMessage();
@@ -53,8 +54,9 @@ export function CurrentUserProvider({ children }: { children: ReactNode }) {
       const message = buildSiweMessage(addr, nonce);
       const signature = await signMessageAsync({ message });
       setWalletStatus("verifying");
-      await api.connectWallet({ message, signature });
+      const result = await api.connectWallet({ message, signature });
       setWalletAuthedAddress(addr);
+      setWalletUsername(result.username);
       setWalletStatus("authenticated");
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Wallet authentication failed";
@@ -69,6 +71,7 @@ export function CurrentUserProvider({ children }: { children: ReactNode }) {
       setWalletStatus("disconnected");
       setWalletError(null);
       setWalletAuthedAddress(null);
+      setWalletUsername(null);
       return;
     }
     if (walletStatus === "authenticated" && walletAuthedAddress?.toLowerCase() === address.toLowerCase()) {
@@ -78,7 +81,7 @@ export function CurrentUserProvider({ children }: { children: ReactNode }) {
   }, [address, isConnected]);
 
   const effectiveUser =
-    walletStatus === "authenticated" && address ? address : currentUser;
+    walletStatus === "authenticated" && walletUsername ? walletUsername : currentUser;
 
   const value = useMemo(
     () => ({
@@ -89,7 +92,7 @@ export function CurrentUserProvider({ children }: { children: ReactNode }) {
       walletStatus,
       walletError,
     }),
-    [effectiveUser, address, walletStatus, walletError, currentUser]
+    [effectiveUser, address, walletStatus, walletError, walletUsername, currentUser]
   );
 
   return (
