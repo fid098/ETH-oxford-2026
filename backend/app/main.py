@@ -1,3 +1,6 @@
+import json
+from datetime import datetime
+from collections import defaultdict
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -17,6 +20,45 @@ app.include_router(claims.router, prefix="/api/claims", tags=["claims"])
 app.include_router(users.router, prefix="/api/users", tags=["users"])
 app.include_router(positions.router, prefix="/api/positions", tags=["positions"])
 
+@app.get("/api/analytics")
+def get_analytics():
+    try:
+        # Note: Ensure the path to data.json is correct relative to where you run uvicorn
+        with open("data.json", "r") as f:
+            data = json.load(f)
+        
+        positions_list = data.get("positions", [])
+        
+        # Calculate TVL
+        total_tvl = sum(p["stake"] for p in positions_list)
+        
+        # Aggregate Stakes by Date
+        daily_data = defaultdict(lambda: {"stakes_count": 0, "total_value": 0})
+        for p in positions_list:
+            date_str = p["created_at"].split("T")[0]
+            daily_data[date_str]["stakes_count"] += 1
+            daily_data[date_str]["total_value"] += p["stake"]
+        
+        # Sort history for the graph
+        sorted_history = []
+        for date in sorted(daily_data.keys()):
+            sorted_history.append({
+                "date": date, 
+                "value": daily_data[date]["total_value"],
+                "count": daily_data[date]["stakes_count"]
+            })
+        
+        # Calculate real sentiment (Yes stakes / Total stakes)
+        yes_stakes = sum(p["stake"] for p in positions_list if p["side"] == "yes")
+        sentiment_val = int((yes_stakes / total_tvl * 100)) if total_tvl > 0 else 50
+
+        return {
+            "tvl": total_tvl,
+            "sentiment": sentiment_val,
+            "history": sorted_history
+        }
+    except Exception as e:
+        return {"error": str(e), "tvl": 0, "sentiment": 0, "history": []}
 
 @app.get("/api/health")
 def health():
