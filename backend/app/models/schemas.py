@@ -30,6 +30,7 @@ class Position(BaseModel):
     stake: float
     confidence: float = Field(ge=0.5, le=0.99)
     created_at: datetime = Field(default_factory=datetime.utcnow)
+    reasoning: str | None = None
 
 
 # ── Request / Response Schemas ─────────────────────────────
@@ -46,6 +47,7 @@ class CreatePositionRequest(BaseModel):
     side: Literal["yes", "no"]
     stake: float = Field(gt=0)
     confidence: float = Field(ge=0.5, le=0.99)
+    reasoning: str | None = Field(default=None, max_length=500)
 
 
 class ResolveClaimRequest(BaseModel):

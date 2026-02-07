@@ -36,6 +36,10 @@ def create_position(req: CreatePositionRequest):
     updated_user = user.model_copy(update={"points": user.points - req.stake})
     database.update_user(updated_user)
 
+    reasoning = req.reasoning.strip() if req.reasoning else None
+    if reasoning == "":
+        reasoning = None
+
     # Create position
     position = Position(
         id=f"pos-{uuid.uuid4().hex[:8]}",
@@ -44,6 +48,7 @@ def create_position(req: CreatePositionRequest):
         side=req.side,
         stake=req.stake,
         confidence=req.confidence,
+        reasoning=reasoning,
     )
     database.add_position(position)
     return position

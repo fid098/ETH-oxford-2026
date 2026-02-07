@@ -13,6 +13,7 @@ export default function StakingWidget({ claimId, onSuccess }: Props) {
   const [stake, setStake] = useState(10);
   const [confidence, setConfidence] = useState(0.7);
   const [username, setUsername] = useState("alice");
+  const [reasoning, setReasoning] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -26,9 +27,11 @@ export default function StakingWidget({ claimId, onSuccess }: Props) {
         side,
         stake,
         confidence,
+        reasoning: reasoning.trim() ? reasoning.trim() : undefined,
       });
       toast(`Staked ${stake} pts on ${side === "yes" ? "True" : "False"}`, "success");
       onSuccess();
+      setReasoning("");
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : "Failed to stake";
       setError(msg);
@@ -100,6 +103,24 @@ export default function StakingWidget({ claimId, onSuccess }: Props) {
           value={Math.round(confidence * 100)}
           onChange={(e) => setConfidence(Number(e.target.value) / 100)}
         />
+      </div>
+
+      <div className="staking-field">
+        <div className="staking-label-row">
+          <label className="staking-label">Reasoning (optional)</label>
+          <span className="staking-value">{reasoning.length}/500</span>
+        </div>
+        <textarea
+          className="staking-reasoning"
+          rows={4}
+          maxLength={500}
+          placeholder="Share why you think this is true or false..."
+          value={reasoning}
+          onChange={(e) => setReasoning(e.target.value)}
+        />
+        <span className="staking-help">
+          Visible on the claim page with your position.
+        </span>
       </div>
 
       {error && <div className="staking-error">{error}</div>}

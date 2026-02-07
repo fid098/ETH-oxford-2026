@@ -22,6 +22,7 @@ export interface Position {
   stake: number;
   confidence: number;
   created_at: string;
+  reasoning?: string | null;
 }
 
 export interface UserProfile {
@@ -68,5 +69,6 @@ export const api = {
     side: "yes" | "no";
     stake: number;
     confidence: number;
+    reasoning?: string | null;
   }) => request<Position>("/positions/", { method: "POST", body: JSON.stringify(data) }),
 };

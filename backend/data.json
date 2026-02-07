@@ -3,8 +3,8 @@
     {
       "username": "alice",
       "display_name": "Alice Chen",
-      "points": 1150,
-      "created_at": "2025-01-15T10:00:00Z"
+      "points": 946.0,
+      "created_at": "2025-01-15 10:00:00+00:00"
     },
     {
       "username": "bob",
@@ -475,6 +475,16 @@
       "stake": 55,
       "confidence": 0.58,
       "created_at": "2025-05-25T09:00:00Z"
+    },
+    {
+      "id": "pos-0fdd2756",
+      "claim_id": "claim-2",
+      "username": "alice",
+      "side": "yes",
+      "stake": 204.0,
+      "confidence": 0.78,
+      "created_at": "2026-02-07 13:26:02.187234",
+      "reasoning": null
     }
   ]
 }

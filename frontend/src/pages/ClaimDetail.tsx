@@ -99,14 +99,19 @@ export default function ClaimDetail() {
                 <h3 className="positions-heading text-green">Believers ({yesPositions.length})</h3>
                 {yesPositions.map((p) => (
                   <div key={p.id} className="position-row card">
-                    <Link to={`/user/${p.username}`} className="position-user">
-                      <div className="position-avatar">{p.username[0].toUpperCase()}</div>
-                      <span>{p.username}</span>
-                    </Link>
-                    <div className="position-details">
-                      <span className="text-green font-semibold">{p.stake} pts</span>
-                      <span className="text-muted">{Math.round(p.confidence * 100)}% conf</span>
+                    <div className="position-row-main">
+                      <Link to={`/user/${p.username}`} className="position-user">
+                        <div className="position-avatar">{p.username[0].toUpperCase()}</div>
+                        <span>{p.username}</span>
+                      </Link>
+                      <div className="position-details">
+                        <span className="text-green font-semibold">{p.stake} pts</span>
+                        <span className="text-muted">{Math.round(p.confidence * 100)}% conf</span>
+                      </div>
                     </div>
+                    {p.reasoning && (
+                      <p className="position-reasoning">{p.reasoning}</p>
+                    )}
                   </div>
                 ))}
                 {yesPositions.length === 0 && (
@@ -117,14 +122,19 @@ export default function ClaimDetail() {
                 <h3 className="positions-heading text-red">Skeptics ({noPositions.length})</h3>
                 {noPositions.map((p) => (
                   <div key={p.id} className="position-row card">
-                    <Link to={`/user/${p.username}`} className="position-user">
-                      <div className="position-avatar">{p.username[0].toUpperCase()}</div>
-                      <span>{p.username}</span>
-                    </Link>
-                    <div className="position-details">
-                      <span className="text-red font-semibold">{p.stake} pts</span>
-                      <span className="text-muted">{Math.round(p.confidence * 100)}% conf</span>
+                    <div className="position-row-main">
+                      <Link to={`/user/${p.username}`} className="position-user">
+                        <div className="position-avatar">{p.username[0].toUpperCase()}</div>
+                        <span>{p.username}</span>
+                      </Link>
+                      <div className="position-details">
+                        <span className="text-red font-semibold">{p.stake} pts</span>
+                        <span className="text-muted">{Math.round(p.confidence * 100)}% conf</span>
+                      </div>
                     </div>
+                    {p.reasoning && (
+                      <p className="position-reasoning">{p.reasoning}</p>
+                    )}
                   </div>
                 ))}
                 {noPositions.length === 0 && (

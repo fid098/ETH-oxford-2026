@@ -62,6 +62,18 @@
   color: var(--accent);
 }
 
+.staking-reasoning {
+  min-height: 96px;
+  resize: vertical;
+}
+
+.staking-help {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
 .staking-error {
   padding: 10px 14px;
   background: var(--accent-red-glow);

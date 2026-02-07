@@ -202,6 +202,9 @@ export default function UserProfile() {
                     <span className="profile-pos-meta text-secondary">
                       {claimById.get(p.claim_id)?.category ?? "Unknown category"} - {p.claim_id}
                     </span>
+                    {p.reasoning && (
+                      <span className="profile-pos-reasoning">{p.reasoning}</span>
+                    )}
                   </div>
                 </div>
                 <div className="profile-pos-right">
@@ -235,6 +238,9 @@ export default function UserProfile() {
                     <span className="profile-pos-meta text-secondary">
                       {claimById.get(p.claim_id)?.category ?? "Unknown category"} - {p.claim_id}
                     </span>
+                    {p.reasoning && (
+                      <span className="profile-pos-reasoning">{p.reasoning}</span>
+                    )}
                   </div>
                 </div>
                 <div className="profile-pos-right">
