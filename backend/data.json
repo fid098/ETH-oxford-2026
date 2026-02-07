@@ -1,0 +1,161 @@
+{
+  "users": [
+    {
+      "username": "alice",
+      "display_name": "Alice Chen",
+      "points": 1000,
+      "created_at": "2025-01-15T10:00:00Z"
+    },
+    {
+      "username": "bob",
+      "display_name": "Bob Martinez",
+      "points": 750,
+      "created_at": "2025-01-16T14:30:00Z"
+    },
+    {
+      "username": "charlie",
+      "display_name": "Charlie Park",
+      "points": 1200,
+      "created_at": "2025-01-17T09:15:00Z"
+    },
+    {
+      "username": "diana",
+      "display_name": "Diana Ross",
+      "points": 500,
+      "created_at": "2025-01-18T11:45:00Z"
+    },
+    {
+      "username": "eve",
+      "display_name": "Eve Johnson",
+      "points": 900,
+      "created_at": "2025-01-19T16:00:00Z"
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim-1",
+      "title": "Bitcoin will exceed $150k by end of 2026",
+      "description": "BTC/USD price will reach or exceed $150,000 on any major exchange before December 31, 2026.",
+      "category": "crypto",
+      "status": "active",
+      "created_at": "2025-02-01T08:00:00Z"
+    },
+    {
+      "id": "claim-2",
+      "title": "GPT-5 will be released before July 2026",
+      "description": "OpenAI will publicly release a model officially named GPT-5 before July 1, 2026.",
+      "category": "ai",
+      "status": "active",
+      "created_at": "2025-02-02T12:00:00Z"
+    },
+    {
+      "id": "claim-3",
+      "title": "Ethereum will flip Bitcoin in market cap",
+      "description": "Ethereum's total market capitalization will exceed Bitcoin's at any point in 2026.",
+      "category": "crypto",
+      "status": "active",
+      "created_at": "2025-02-03T15:30:00Z"
+    },
+    {
+      "id": "claim-4",
+      "title": "A major country will adopt CBDC in 2025",
+      "description": "A G20 nation will officially launch a retail Central Bank Digital Currency for public use.",
+      "category": "policy",
+      "status": "resolved_yes",
+      "created_at": "2025-01-20T10:00:00Z",
+      "resolved_at": "2025-12-15T18:00:00Z"
+    },
+    {
+      "id": "claim-5",
+      "title": "Solana TVL will exceed $50B",
+      "description": "Total Value Locked in Solana DeFi protocols will exceed $50 billion USD.",
+      "category": "crypto",
+      "status": "resolved_no",
+      "created_at": "2025-01-25T09:00:00Z",
+      "resolved_at": "2025-11-30T12:00:00Z"
+    }
+  ],
+  "positions": [
+    {
+      "id": "pos-1",
+      "claim_id": "claim-1",
+      "username": "alice",
+      "side": "yes",
+      "stake": 100,
+      "confidence": 0.75,
+      "created_at": "2025-02-01T10:00:00Z"
+    },
+    {
+      "id": "pos-2",
+      "claim_id": "claim-1",
+      "username": "bob",
+      "side": "no",
+      "stake": 50,
+      "confidence": 0.6,
+      "created_at": "2025-02-01T11:00:00Z"
+    },
+    {
+      "id": "pos-3",
+      "claim_id": "claim-2",
+      "username": "charlie",
+      "side": "yes",
+      "stake": 200,
+      "confidence": 0.85,
+      "created_at": "2025-02-02T14:00:00Z"
+    },
+    {
+      "id": "pos-4",
+      "claim_id": "claim-2",
+      "username": "alice",
+      "side": "yes",
+      "stake": 150,
+      "confidence": 0.7,
+      "created_at": "2025-02-02T15:00:00Z"
+    },
+    {
+      "id": "pos-5",
+      "claim_id": "claim-3",
+      "username": "bob",
+      "side": "no",
+      "stake": 100,
+      "confidence": 0.9,
+      "created_at": "2025-02-03T16:00:00Z"
+    },
+    {
+      "id": "pos-6",
+      "claim_id": "claim-4",
+      "username": "alice",
+      "side": "yes",
+      "stake": 80,
+      "confidence": 0.65,
+      "created_at": "2025-01-21T10:00:00Z"
+    },
+    {
+      "id": "pos-7",
+      "claim_id": "claim-4",
+      "username": "charlie",
+      "side": "no",
+      "stake": 120,
+      "confidence": 0.55,
+      "created_at": "2025-01-22T12:00:00Z"
+    },
+    {
+      "id": "pos-8",
+      "claim_id": "claim-5",
+      "username": "diana",
+      "side": "yes",
+      "stake": 60,
+      "confidence": 0.5,
+      "created_at": "2025-01-26T10:00:00Z"
+    },
+    {
+      "id": "pos-9",
+      "claim_id": "claim-5",
+      "username": "eve",
+      "side": "no",
+      "stake": 90,
+      "confidence": 0.8,
+      "created_at": "2025-01-27T11:00:00Z"
+    }
+  ]
+}
