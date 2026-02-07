@@ -1,8 +1,9 @@
 .belief-graph {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
+  background: #0b1220;
+  border: 1px solid #1b2a3f;
   border-radius: var(--radius-lg);
   padding: 24px;
+  box-shadow: 0 18px 40px rgba(4, 8, 15, 0.35);
 }
 
 .belief-graph-header {
@@ -15,7 +16,7 @@
 .belief-graph-title {
   font-size: 16px;
   font-weight: 600;
-  color: var(--text-primary);
+  color: #e7f6ef;
 }
 
 .belief-graph-legend {
@@ -60,16 +61,16 @@
 /* ── Tooltip ───────────────────────────────────────────── */
 
 .belief-tooltip {
-  background: rgba(17, 24, 39, 0.95);
+  background: rgba(12, 19, 33, 0.95);
   backdrop-filter: blur(8px);
-  border: 1px solid var(--border-light);
+  border: 1px solid #24324a;
   border-radius: var(--radius-md);
   padding: 10px 14px;
 }
 
 .belief-tooltip-label {
   font-size: 11px;
-  color: var(--text-muted);
+  color: #a9b9b2;
   margin-bottom: 4px;
 }
 

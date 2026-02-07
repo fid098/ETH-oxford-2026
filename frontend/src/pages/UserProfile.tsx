@@ -74,7 +74,7 @@ export default function UserProfile() {
                     style={{
                       width: `${stats.accuracy}%`,
                       background: stats.accuracy >= 60
-                        ? "linear-gradient(90deg, #22c55e, #4ade80)"
+                        ? "linear-gradient(90deg, #1f9d55, #67d18f)"
                         : "linear-gradient(90deg, #ef4444, #f87171)",
                     }}
                   />
