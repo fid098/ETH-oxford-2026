@@ -17,7 +17,8 @@ export default function MarketAnalytics() {
   const [stats, setStats] = useState({
     tvl: 3540,
     sentiment: 72, 
-    history: []
+    history: [],
+    top_categories: []
   });
 
   const [showCreate, setShowCreate] = useState(false);
@@ -99,16 +100,28 @@ export default function MarketAnalytics() {
           </div>
         </div>
 
-        {/* System Activity */}
+        {/* Trending Categories */}
         <div className="card col-span-2" style={{ padding: '24px' }}>
-          <span className="analytics-label" style={{ display: 'block', marginBottom: '16px' }}>System Activity</span>
-          <div className="activity-item">
-            <span style={{ color: 'var(--text-muted)' }}>Alice staked 200 pts on "Vite 7.0"</span>
-            <span style={{ color: '#2fd07a', fontWeight: 700 }}>VIEW</span>
-          </div>
-          <div className="activity-item" style={{ opacity: 0.6 }}>
-            <span style={{ color: 'var(--text-muted)' }}>Market "ETH High" resolved</span>
-            <span style={{ fontWeight: 700 }}>CLOSED</span>
+          <span className="analytics-label" style={{ display: 'block', marginBottom: '16px' }}>
+            Trending Categories
+          </span>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {stats.top_categories.map((cat, i) => (
+              <div key={i} className="activity-item" style={{ alignItems: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <div style={{ 
+                    width: '8px', 
+                    height: '8px', 
+                    borderRadius: '50%', 
+                    background: i === 0 ? '#2fd07a' : '#64748b' 
+                  }} />
+                  <span style={{ textTransform: 'capitalize', fontWeight: 600 }}>{cat.name}</span>
+                </div>
+                <span style={{ color: 'var(--text-muted)', fontSize: '12px' }}>
+                  {cat.count} active claims
+                </span>
+              </div>
+            ))}
           </div>
         </div>
 

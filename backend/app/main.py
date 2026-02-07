@@ -1,6 +1,6 @@
 import json
 from datetime import datetime
-from collections import defaultdict
+from collections import defaultdict, Counter # Added Counter here
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -23,13 +23,12 @@ app.include_router(positions.router, prefix="/api/positions", tags=["positions"]
 @app.get("/api/analytics")
 def get_analytics():
     try:
-        # Note: Ensure the path to data.json is correct relative to where you run uvicorn
         with open("data.json", "r") as f:
             data = json.load(f)
         
         positions_list = data.get("positions", [])
+        claims_list = data.get("claims", []) # Get the claims list
         
-        # Calculate TVL
         total_tvl = sum(p["stake"] for p in positions_list)
         
         # Aggregate Stakes by Date
@@ -52,13 +51,22 @@ def get_analytics():
         yes_stakes = sum(p["stake"] for p in positions_list if p["side"] == "yes")
         sentiment_val = int((yes_stakes / total_tvl * 100)) if total_tvl > 0 else 50
 
+        # Calculate Top 3 Categories
+        # This counts every category occurrence in the claims list
+        category_counts = Counter(c.get("category", "other") for c in claims_list)
+        top_categories = [
+            {"name": cat, "count": count} 
+            for cat, count in category_counts.most_common(3)
+        ]
+
         return {
             "tvl": total_tvl,
             "sentiment": sentiment_val,
-            "history": sorted_history
+            "history": sorted_history,
+            "top_categories": top_categories # Send this to the frontend
         }
     except Exception as e:
-        return {"error": str(e), "tvl": 0, "sentiment": 0, "history": []}
+        return {"error": str(e), "tvl": 0, "sentiment": 0, "history": [], "top_categories": []}
 
 @app.get("/api/health")
 def health():
