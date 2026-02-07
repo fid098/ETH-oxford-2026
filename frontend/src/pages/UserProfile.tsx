@@ -129,6 +129,13 @@ export default function UserProfile() {
         <div className="profile-info">
           <h1 className="profile-name">{user.display_name}</h1>
           <span className="profile-username">@{user.username}</span>
+          {user.wallet_address && (
+            <div className="profile-wallet-row">
+              <span className="profile-wallet-addr" title={user.wallet_address}>
+                {user.wallet_address.slice(0, 6)}...{user.wallet_address.slice(-4)}
+              </span>
+            </div>
+          )}
         </div>
         <div className="profile-top-stats">
           <div className="profile-stat-card">
@@ -345,6 +352,21 @@ export default function UserProfile() {
           </div>
         )}
       </div>
+
+      {user.wallet_address && (
+        <div className="profile-section">
+          <h2 className="section-title">On-chain Activity</h2>
+          <div className="card onchain-placeholder">
+            <div className="onchain-icon">&#9830;</div>
+            <p className="onchain-text">
+              On-chain transaction history and token holdings for{" "}
+              <span className="onchain-addr">{user.wallet_address.slice(0, 6)}...{user.wallet_address.slice(-4)}</span>{" "}
+              will appear here once integrated.
+            </p>
+            <span className="badge badge-category">Coming soon</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

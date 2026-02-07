@@ -35,6 +35,29 @@
   color: var(--text-muted);
 }
 
+.profile-wallet-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.profile-wallet-addr {
+  font-size: 12px;
+  font-family: monospace;
+  color: var(--text-secondary);
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm, 4px);
+  padding: 2px 8px;
+}
+
+.profile-ens-placeholder {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
 .profile-top-stats {
   display: flex;
   gap: 16px;
@@ -324,6 +347,35 @@
   align-items: flex-end;
   gap: 2px;
   font-size: 13px;
+}
+
+/* ── On-chain Activity Placeholder ────────────────────── */
+
+.onchain-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 32px 24px;
+  gap: 12px;
+}
+
+.onchain-icon {
+  font-size: 28px;
+  color: var(--accent);
+  opacity: 0.6;
+}
+
+.onchain-text {
+  font-size: 13px;
+  color: var(--text-muted);
+  max-width: 400px;
+  line-height: 1.5;
+}
+
+.onchain-addr {
+  font-family: monospace;
+  color: var(--text-secondary);
 }
 
 @media (max-width: 768px) {

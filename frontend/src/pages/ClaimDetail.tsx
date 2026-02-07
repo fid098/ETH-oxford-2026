@@ -229,22 +229,55 @@ export default function ClaimDetail() {
             </div>
           )}
 
-          <div className="card detail-card" style={{ marginTop: 24 }}>
+          <div className="card detail-card timeline-card" style={{ marginTop: 24 }}>
+            <h3 className="timeline-heading">Timeline</h3>
+            <div className="timeline">
+              <div className="timeline-item timeline-done">
+                <div className="timeline-dot" />
+                <div className="timeline-content">
+                  <span className="timeline-label">Created</span>
+                  <span className="timeline-date">{new Date(claim.created_at).toLocaleDateString()}</span>
+                </div>
+              </div>
 
-            <div className="detail-meta">
-              <div className="meta-item">
-                <span className="meta-value">{claim.position_count}</span>
-                <span className="meta-label">Positions</span>
+              <div className={`timeline-item ${claim.position_count > 0 ? "timeline-done" : ""}`}>
+                <div className="timeline-dot" />
+                <div className="timeline-content">
+                  <span className="timeline-label">
+                    {claim.position_count > 0
+                      ? `${claim.position_count} position${claim.position_count !== 1 ? "s" : ""} taken`
+                      : "Awaiting positions"}
+                  </span>
+                  <span className="timeline-date">{claim.total_staked} pts staked</span>
+                </div>
               </div>
-              <div className="meta-item">
-                <span className="meta-value">{claim.total_staked}</span>
-                <span className="meta-label">Points Staked</span>
-              </div>
-              <div className="meta-item">
-                <span className="meta-value">
-                  {new Date(claim.created_at).toLocaleDateString()}
-                </span>
-                <span className="meta-label">Created</span>
+
+              {resolutionType === "oracle" && claim.resolution_date && (
+                <div className={`timeline-item ${claim.status !== "active" ? "timeline-done" : ""}`}>
+                  <div className="timeline-dot" />
+                  <div className="timeline-content">
+                    <span className="timeline-label">Oracle resolution date</span>
+                    <span className="timeline-date">{new Date(claim.resolution_date).toLocaleDateString()}</span>
+                  </div>
+                </div>
+              )}
+
+              <div className={`timeline-item ${claim.status !== "active" ? "timeline-done" : "timeline-pending"}`}>
+                <div className="timeline-dot" />
+                <div className="timeline-content">
+                  <span className="timeline-label">
+                    {claim.status === "active"
+                      ? "Pending resolution"
+                      : claim.status === "resolved_yes"
+                        ? "Resolved TRUE"
+                        : "Resolved FALSE"}
+                  </span>
+                  <span className="timeline-date">
+                    {claim.status !== "active" && claim.resolved_at
+                      ? new Date(claim.resolved_at).toLocaleDateString()
+                      : resolutionType === "oracle" ? "Via Chainlink oracle" : "Manual"}
+                  </span>
+                </div>
               </div>
             </div>
           </div>

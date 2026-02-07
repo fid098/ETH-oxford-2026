@@ -59,6 +59,9 @@ export default function ClaimCard({ claim, positions }: { claim: ClaimWithOdds; 
         <div className="claim-card-header">
           <span className="badge badge-category">{claim.category}</span>
           {statusBadge(claim.status)}
+          <span className={`badge badge-resolution ${claim.resolution_type === "oracle" ? "badge-oracle" : "badge-manual"}`}>
+            {claim.resolution_type === "oracle" ? "Oracle" : "Manual"}
+          </span>
           <span className="claim-card-time">{timeAgo(claim.created_at)}</span>
         </div>
 

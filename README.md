@@ -5,7 +5,7 @@ A prediction market platform where users stake reputation points on claims, buil
 ## Architecture
 
 ```
-Browser (React + Vite :5173)
+Browser (React + Vite :3000)
     |
     | /api/* proxy
     v
@@ -52,10 +52,10 @@ Chainlink Price Feeds (Ethereum mainnet via Web3 RPC)
 
 ## Environment Variables
 
-| Variable                        | Purpose                                         | Default                      |
-| ------------------------------- | ----------------------------------------------- | ---------------------------- |
-| `WEB3_PROVIDER_URL`             | Ethereum mainnet RPC for Chainlink oracle reads | `https://cloudflare-eth.com` |
-| `VITE_WALLETCONNECT_PROJECT_ID` | WalletConnect project ID for RainbowKit         | (none)                       |
+| Variable                        | Purpose                                         | Default                                    |
+| ------------------------------- | ----------------------------------------------- | ------------------------------------------ |
+| `WEB3_PROVIDER_URL`             | Ethereum mainnet RPC for Chainlink oracle reads | Public RPC fallback list (no API key)      |
+| `VITE_WALLETCONNECT_PROJECT_ID` | WalletConnect project ID for RainbowKit         | (none)                                     |
 
 ## API Routes
 
@@ -72,7 +72,7 @@ Chainlink Price Feeds (Ethereum mainnet via Web3 RPC)
 | GET    | `/api/users/{username}`          | Single user with category stats  |
 | GET    | `/api/positions/`                | All positions                    |
 | POST   | `/api/positions/`                | Create position (deducts points) |
-| GET    | `/api/auth/nonce?address=`       | Get SIWE nonce (5-min TTL)       |
+| GET    | `/api/auth/nonce?address=`       | Get SIWE nonce                   |
 | POST   | `/api/auth/connect-wallet`       | Verify SIWE signature            |
 | GET    | `/api/health`                    | Health check                     |
 
@@ -95,7 +95,8 @@ Chainlink Price Feeds (Ethereum mainnet via Web3 RPC)
 ## Notes
 
 - The Vite dev server proxies `/api` to `http://localhost:8000` (see `frontend/vite.config.ts`).
-- If port 5173 is in use, Vite will choose the next available port.
-- Auth nonces expire after 5 minutes. Stale nonces are pruned on each new request.
-- Oracle endpoints return HTTP 502 if the Web3 RPC is unreachable.
+- If port 3000 is in use, Vite will choose the next available port.
+- WalletConnect options require a valid `VITE_WALLETCONNECT_PROJECT_ID` (RainbowKit will fail silently without it).
+- Nonces are stored in-memory and reset on backend restart (sufficient for hackathon use).
+- Oracle endpoints use public RPC fallbacks by default; set `WEB3_PROVIDER_URL` for reliability.
 - The JSON database has no file locking; not suitable for concurrent production use.
