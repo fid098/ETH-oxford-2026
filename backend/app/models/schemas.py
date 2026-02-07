@@ -8,6 +8,7 @@ from datetime import datetime
 class User(BaseModel):
     username: str
     display_name: str
+    wallet_address: str | None = None
     points: float = 1000.0
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
@@ -20,6 +21,10 @@ class Claim(BaseModel):
     status: Literal["active", "resolved_yes", "resolved_no"] = "active"
     created_at: datetime = Field(default_factory=datetime.utcnow)
     resolved_at: datetime | None = None
+    created_by: str | None = None
+    resolution_type: Literal["manual", "oracle"] = "manual"
+    resolution_date: datetime | None = None
+    oracle_config: dict | None = None
 
 
 class Position(BaseModel):
@@ -30,6 +35,7 @@ class Position(BaseModel):
     stake: float
     confidence: float = Field(ge=0.5, le=0.99)
     created_at: datetime = Field(default_factory=datetime.utcnow)
+    reasoning: str | None = None
 
 
 # ── Request / Response Schemas ─────────────────────────────
@@ -38,6 +44,10 @@ class CreateClaimRequest(BaseModel):
     title: str
     description: str
     category: str
+    created_by: str | None = None
+    resolution_type: Literal["manual", "oracle"] = "manual"
+    resolution_date: datetime | None = None
+    oracle_config: dict | None = None
 
 
 class CreatePositionRequest(BaseModel):
@@ -46,6 +56,7 @@ class CreatePositionRequest(BaseModel):
     side: Literal["yes", "no"]
     stake: float = Field(gt=0)
     confidence: float = Field(ge=0.5, le=0.99)
+    reasoning: str | None = Field(default=None, max_length=500)
 
 
 class ResolveClaimRequest(BaseModel):
@@ -60,6 +71,10 @@ class ClaimWithOdds(BaseModel):
     status: Literal["active", "resolved_yes", "resolved_no"]
     created_at: datetime
     resolved_at: datetime | None = None
+    created_by: str | None = None
+    resolution_type: Literal["manual", "oracle"] = "manual"
+    resolution_date: datetime | None = None
+    oracle_config: dict | None = None
     yes_percentage: float
     no_percentage: float
     total_staked: float
@@ -69,6 +84,7 @@ class ClaimWithOdds(BaseModel):
 class UserProfile(BaseModel):
     username: str
     display_name: str
+    wallet_address: str | None = None
     points: float
     accuracy: float | None = None
     total_resolved: int = 0

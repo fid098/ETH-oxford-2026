@@ -3,32 +3,57 @@
     {
       "username": "alice",
       "display_name": "Alice Chen",
-      "points": 1000,
+      "points": 946.0,
       "created_at": "2025-01-15T10:00:00Z"
     },
     {
       "username": "bob",
       "display_name": "Bob Martinez",
-      "points": 750,
+      "points": 820,
       "created_at": "2025-01-16T14:30:00Z"
     },
     {
       "username": "charlie",
       "display_name": "Charlie Park",
-      "points": 1200,
+      "points": 1340,
       "created_at": "2025-01-17T09:15:00Z"
     },
     {
       "username": "diana",
       "display_name": "Diana Ross",
-      "points": 500,
+      "points": 670,
       "created_at": "2025-01-18T11:45:00Z"
     },
     {
       "username": "eve",
       "display_name": "Eve Johnson",
-      "points": 900,
+      "points": 950,
       "created_at": "2025-01-19T16:00:00Z"
+    },
+    {
+      "username": "frank",
+      "display_name": "Frank Liu",
+      "points": 1080,
+      "created_at": "2025-01-20T08:30:00Z"
+    },
+    {
+      "username": "grace",
+      "display_name": "Grace Kim",
+      "points": 760,
+      "created_at": "2025-01-21T13:00:00Z"
+    },
+    {
+      "username": "hector",
+      "display_name": "Hector Reyes",
+      "points": 890,
+      "created_at": "2025-01-22T10:15:00Z"
+    },
+    {
+      "username": "0x4e022712847bD731f8342096cDb1Efc624cDb72D",
+      "display_name": "0x4e02...b72D",
+      "wallet_address": "0x4e022712847bD731f8342096cDb1Efc624cDb72D",
+      "points": 834.0,
+      "created_at": "2026-02-07 20:16:50.710282"
     }
   ],
   "claims": [
@@ -38,7 +63,8 @@
       "description": "BTC/USD price will reach or exceed $150,000 on any major exchange before December 31, 2026.",
       "category": "crypto",
       "status": "active",
-      "created_at": "2025-02-01T08:00:00Z"
+      "created_at": "2025-02-01T08:00:00Z",
+      "created_by": "alice"
     },
     {
       "id": "claim-2",
@@ -46,7 +72,8 @@
       "description": "OpenAI will publicly release a model officially named GPT-5 before July 1, 2026.",
       "category": "ai",
       "status": "active",
-      "created_at": "2025-02-02T12:00:00Z"
+      "created_at": "2025-02-02T12:00:00Z",
+      "created_by": "charlie"
     },
     {
       "id": "claim-3",
@@ -54,7 +81,8 @@
       "description": "Ethereum's total market capitalization will exceed Bitcoin's at any point in 2026.",
       "category": "crypto",
       "status": "active",
-      "created_at": "2025-02-03T15:30:00Z"
+      "created_at": "2025-02-03T15:30:00Z",
+      "created_by": "bob"
     },
     {
       "id": "claim-4",
@@ -63,7 +91,8 @@
       "category": "policy",
       "status": "resolved_yes",
       "created_at": "2025-01-20T10:00:00Z",
-      "resolved_at": "2025-12-15T18:00:00Z"
+      "resolved_at": "2025-12-15T18:00:00Z",
+      "created_by": "diana"
     },
     {
       "id": "claim-5",
@@ -72,7 +101,91 @@
       "category": "crypto",
       "status": "resolved_no",
       "created_at": "2025-01-25T09:00:00Z",
-      "resolved_at": "2025-11-30T12:00:00Z"
+      "resolved_at": "2025-11-30T12:00:00Z",
+      "created_by": "eve"
+    },
+    {
+      "id": "claim-6",
+      "title": "AI will pass the Turing Test by 2026",
+      "description": "An AI system will fool >50% of human judges in a standardized Turing Test competition in 2026.",
+      "category": "ai",
+      "status": "active",
+      "created_at": "2025-03-10T09:00:00Z",
+      "created_by": "frank"
+    },
+    {
+      "id": "claim-7",
+      "title": "US will regulate stablecoins in 2026",
+      "description": "The US Congress will pass comprehensive stablecoin legislation before December 31, 2026.",
+      "category": "policy",
+      "status": "active",
+      "created_at": "2025-03-15T14:00:00Z",
+      "created_by": "alice"
+    },
+    {
+      "id": "claim-8",
+      "title": "Apple will launch an AI search engine",
+      "description": "Apple will announce and publicly beta-launch its own AI-powered web search engine by end of 2026.",
+      "category": "tech",
+      "status": "active",
+      "created_at": "2025-04-01T11:00:00Z",
+      "created_by": "grace"
+    },
+    {
+      "id": "claim-9",
+      "title": "CRISPR therapy will cure sickle cell in trials",
+      "description": "A CRISPR-based gene therapy will receive full FDA approval for sickle cell disease treatment.",
+      "category": "science",
+      "status": "resolved_yes",
+      "created_at": "2025-01-10T08:00:00Z",
+      "resolved_at": "2025-09-20T16:00:00Z",
+      "created_by": "charlie"
+    },
+    {
+      "id": "claim-10",
+      "title": "Global temperatures will rise 1.5C above pre-industrial",
+      "description": "The 2025 annual global mean temperature will exceed 1.5 degrees Celsius above the pre-industrial average.",
+      "category": "science",
+      "status": "resolved_yes",
+      "created_at": "2025-01-05T07:00:00Z",
+      "resolved_at": "2025-12-28T10:00:00Z",
+      "created_by": "hector"
+    },
+    {
+      "id": "claim-11",
+      "title": "Tesla will release full self-driving Level 5",
+      "description": "Tesla will achieve and publicly release a certified SAE Level 5 autonomous driving system.",
+      "category": "tech",
+      "status": "active",
+      "created_at": "2025-05-01T10:00:00Z",
+      "created_by": "bob"
+    },
+    {
+      "id": "claim-12",
+      "title": "Ethereum gas fees will average below $0.01",
+      "description": "Average Ethereum L1 transaction gas fees will stay below $0.01 for a full calendar month in 2026.",
+      "category": "crypto",
+      "status": "active",
+      "created_at": "2025-05-15T16:00:00Z",
+      "created_by": "eve"
+    },
+    {
+      "id": "claim-2a16a177",
+      "title": "The bitcoin game is going to blow up",
+      "description": "I have the feeling that AI is going to have a huge say in the improvement of bitcoin",
+      "category": "crypto",
+      "status": "active",
+      "created_at": "2026-02-07 20:21:41.882532",
+      "resolved_at": null,
+      "created_by": "0x4e022712847bD731f8342096cDb1Efc624cDb72D",
+      "resolution_type": "oracle",
+      "resolution_date": "2026-02-07 20:21:00+00:00",
+      "oracle_config": {
+        "type": "chainlink_price",
+        "feed": "BTC/USD",
+        "comparator": ">",
+        "target": 100.0
+      }
     }
   ],
   "positions": [
@@ -83,7 +196,8 @@
       "side": "yes",
       "stake": 100,
       "confidence": 0.75,
-      "created_at": "2025-02-01T10:00:00Z"
+      "created_at": "2025-02-01T10:00:00Z",
+      "reasoning": "Institutional adoption is accelerating. ETF inflows alone could push BTC past $150k."
     },
     {
       "id": "pos-2",
@@ -92,19 +206,39 @@
       "side": "no",
       "stake": 50,
       "confidence": 0.6,
-      "created_at": "2025-02-01T11:00:00Z"
+      "created_at": "2025-02-01T11:00:00Z",
+      "reasoning": "We've seen this hype cycle before. Macro headwinds and regulatory pressure will cap the upside."
     },
     {
       "id": "pos-3",
+      "claim_id": "claim-1",
+      "username": "frank",
+      "side": "yes",
+      "stake": 80,
+      "confidence": 0.8,
+      "created_at": "2025-02-05T09:00:00Z"
+    },
+    {
+      "id": "pos-4",
+      "claim_id": "claim-1",
+      "username": "grace",
+      "side": "no",
+      "stake": 60,
+      "confidence": 0.65,
+      "created_at": "2025-02-10T14:00:00Z"
+    },
+    {
+      "id": "pos-5",
       "claim_id": "claim-2",
       "username": "charlie",
       "side": "yes",
       "stake": 200,
       "confidence": 0.85,
-      "created_at": "2025-02-02T14:00:00Z"
+      "created_at": "2025-02-02T14:00:00Z",
+      "reasoning": "OpenAI has been teasing next-gen models. Internal timelines point to H1 2026 release."
     },
     {
-      "id": "pos-4",
+      "id": "pos-6",
       "claim_id": "claim-2",
       "username": "alice",
       "side": "yes",
@@ -113,16 +247,44 @@
       "created_at": "2025-02-02T15:00:00Z"
     },
     {
-      "id": "pos-5",
+      "id": "pos-7",
+      "claim_id": "claim-2",
+      "username": "hector",
+      "side": "no",
+      "stake": 90,
+      "confidence": 0.55,
+      "created_at": "2025-02-08T11:00:00Z"
+    },
+    {
+      "id": "pos-8",
       "claim_id": "claim-3",
       "username": "bob",
       "side": "no",
       "stake": 100,
       "confidence": 0.9,
-      "created_at": "2025-02-03T16:00:00Z"
+      "created_at": "2025-02-03T16:00:00Z",
+      "reasoning": "The flippening has been predicted for years. Bitcoin's network effect is too strong."
     },
     {
-      "id": "pos-6",
+      "id": "pos-9",
+      "claim_id": "claim-3",
+      "username": "diana",
+      "side": "yes",
+      "stake": 70,
+      "confidence": 0.5,
+      "created_at": "2025-02-06T10:00:00Z"
+    },
+    {
+      "id": "pos-10",
+      "claim_id": "claim-3",
+      "username": "eve",
+      "side": "no",
+      "stake": 120,
+      "confidence": 0.85,
+      "created_at": "2025-02-12T09:00:00Z"
+    },
+    {
+      "id": "pos-11",
       "claim_id": "claim-4",
       "username": "alice",
       "side": "yes",
@@ -131,7 +293,7 @@
       "created_at": "2025-01-21T10:00:00Z"
     },
     {
-      "id": "pos-7",
+      "id": "pos-12",
       "claim_id": "claim-4",
       "username": "charlie",
       "side": "no",
@@ -140,7 +302,16 @@
       "created_at": "2025-01-22T12:00:00Z"
     },
     {
-      "id": "pos-8",
+      "id": "pos-13",
+      "claim_id": "claim-4",
+      "username": "frank",
+      "side": "yes",
+      "stake": 90,
+      "confidence": 0.7,
+      "created_at": "2025-01-25T08:00:00Z"
+    },
+    {
+      "id": "pos-14",
       "claim_id": "claim-5",
       "username": "diana",
       "side": "yes",
@@ -149,13 +320,224 @@
       "created_at": "2025-01-26T10:00:00Z"
     },
     {
-      "id": "pos-9",
+      "id": "pos-15",
       "claim_id": "claim-5",
       "username": "eve",
       "side": "no",
       "stake": 90,
       "confidence": 0.8,
       "created_at": "2025-01-27T11:00:00Z"
+    },
+    {
+      "id": "pos-16",
+      "claim_id": "claim-5",
+      "username": "bob",
+      "side": "no",
+      "stake": 70,
+      "confidence": 0.75,
+      "created_at": "2025-01-28T14:00:00Z"
+    },
+    {
+      "id": "pos-17",
+      "claim_id": "claim-6",
+      "username": "charlie",
+      "side": "yes",
+      "stake": 180,
+      "confidence": 0.6,
+      "created_at": "2025-03-11T10:00:00Z",
+      "reasoning": "LLMs are already fooling people in informal tests. A structured competition seems likely."
+    },
+    {
+      "id": "pos-18",
+      "claim_id": "claim-6",
+      "username": "eve",
+      "side": "no",
+      "stake": 110,
+      "confidence": 0.7,
+      "created_at": "2025-03-12T15:00:00Z"
+    },
+    {
+      "id": "pos-19",
+      "claim_id": "claim-6",
+      "username": "hector",
+      "side": "yes",
+      "stake": 75,
+      "confidence": 0.55,
+      "created_at": "2025-03-20T09:00:00Z"
+    },
+    {
+      "id": "pos-20",
+      "claim_id": "claim-7",
+      "username": "alice",
+      "side": "yes",
+      "stake": 130,
+      "confidence": 0.72,
+      "created_at": "2025-03-16T08:00:00Z"
+    },
+    {
+      "id": "pos-21",
+      "claim_id": "claim-7",
+      "username": "frank",
+      "side": "no",
+      "stake": 85,
+      "confidence": 0.6,
+      "created_at": "2025-03-18T11:00:00Z"
+    },
+    {
+      "id": "pos-22",
+      "claim_id": "claim-8",
+      "username": "grace",
+      "side": "no",
+      "stake": 95,
+      "confidence": 0.78,
+      "created_at": "2025-04-02T10:00:00Z"
+    },
+    {
+      "id": "pos-23",
+      "claim_id": "claim-8",
+      "username": "bob",
+      "side": "no",
+      "stake": 60,
+      "confidence": 0.65,
+      "created_at": "2025-04-05T13:00:00Z"
+    },
+    {
+      "id": "pos-24",
+      "claim_id": "claim-8",
+      "username": "diana",
+      "side": "yes",
+      "stake": 40,
+      "confidence": 0.5,
+      "created_at": "2025-04-10T16:00:00Z"
+    },
+    {
+      "id": "pos-25",
+      "claim_id": "claim-9",
+      "username": "alice",
+      "side": "yes",
+      "stake": 110,
+      "confidence": 0.82,
+      "created_at": "2025-01-12T09:00:00Z"
+    },
+    {
+      "id": "pos-26",
+      "claim_id": "claim-9",
+      "username": "charlie",
+      "side": "yes",
+      "stake": 90,
+      "confidence": 0.7,
+      "created_at": "2025-01-14T14:00:00Z"
+    },
+    {
+      "id": "pos-27",
+      "claim_id": "claim-9",
+      "username": "bob",
+      "side": "no",
+      "stake": 50,
+      "confidence": 0.55,
+      "created_at": "2025-01-15T11:00:00Z"
+    },
+    {
+      "id": "pos-28",
+      "claim_id": "claim-10",
+      "username": "eve",
+      "side": "yes",
+      "stake": 100,
+      "confidence": 0.88,
+      "created_at": "2025-01-06T08:00:00Z"
+    },
+    {
+      "id": "pos-29",
+      "claim_id": "claim-10",
+      "username": "frank",
+      "side": "yes",
+      "stake": 70,
+      "confidence": 0.75,
+      "created_at": "2025-01-08T10:00:00Z"
+    },
+    {
+      "id": "pos-30",
+      "claim_id": "claim-10",
+      "username": "hector",
+      "side": "no",
+      "stake": 40,
+      "confidence": 0.5,
+      "created_at": "2025-01-09T15:00:00Z"
+    },
+    {
+      "id": "pos-31",
+      "claim_id": "claim-11",
+      "username": "grace",
+      "side": "no",
+      "stake": 150,
+      "confidence": 0.9,
+      "created_at": "2025-05-02T09:00:00Z",
+      "reasoning": "Level 5 requires handling every edge case. Tesla is still struggling with Level 3 in practice."
+    },
+    {
+      "id": "pos-32",
+      "claim_id": "claim-11",
+      "username": "charlie",
+      "side": "no",
+      "stake": 100,
+      "confidence": 0.82,
+      "created_at": "2025-05-05T14:00:00Z"
+    },
+    {
+      "id": "pos-33",
+      "claim_id": "claim-11",
+      "username": "diana",
+      "side": "yes",
+      "stake": 45,
+      "confidence": 0.52,
+      "created_at": "2025-05-10T11:00:00Z"
+    },
+    {
+      "id": "pos-34",
+      "claim_id": "claim-12",
+      "username": "frank",
+      "side": "yes",
+      "stake": 80,
+      "confidence": 0.6,
+      "created_at": "2025-05-16T10:00:00Z"
+    },
+    {
+      "id": "pos-35",
+      "claim_id": "claim-12",
+      "username": "alice",
+      "side": "no",
+      "stake": 95,
+      "confidence": 0.72,
+      "created_at": "2025-05-20T13:00:00Z"
+    },
+    {
+      "id": "pos-36",
+      "claim_id": "claim-12",
+      "username": "hector",
+      "side": "yes",
+      "stake": 55,
+      "confidence": 0.58,
+      "created_at": "2025-05-25T09:00:00Z"
+    },
+    {
+      "id": "pos-0fdd2756",
+      "claim_id": "claim-2",
+      "username": "alice",
+      "side": "yes",
+      "stake": 204.0,
+      "confidence": 0.78,
+      "created_at": "2026-02-07T13:26:02Z",
+      "reasoning": null
+    },
+    {
+      "id": "pos-b3740f4b",
+      "claim_id": "claim-1",
+      "username": "0x4e022712847bD731f8342096cDb1Efc624cDb72D",
+      "side": "yes",
+      "stake": 166.0,
+      "confidence": 0.7,
+      "created_at": "2026-02-07 20:20:05.983819",
+      "reasoning": null
     }
   ]
 }

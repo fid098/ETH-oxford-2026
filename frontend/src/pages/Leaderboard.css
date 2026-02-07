@@ -1,0 +1,127 @@
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.leaderboard-list > * {
+  animation: card-in 0.4s ease both;
+}
+
+.leaderboard-list > *:nth-child(1) { animation-delay: 40ms; }
+.leaderboard-list > *:nth-child(2) { animation-delay: 80ms; }
+.leaderboard-list > *:nth-child(3) { animation-delay: 120ms; }
+.leaderboard-list > *:nth-child(4) { animation-delay: 160ms; }
+.leaderboard-list > *:nth-child(5) { animation-delay: 200ms; }
+.leaderboard-list > *:nth-child(6) { animation-delay: 240ms; }
+
+.lb-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  color: inherit;
+}
+
+.lb-rank {
+  width: 36px;
+  text-align: center;
+}
+
+.lb-medal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 800;
+  color: white;
+}
+
+.medal-0 {
+  background: linear-gradient(135deg, #2fd07a, #1f9d55);
+  box-shadow: 0 0 12px rgba(31, 157, 85, 0.35);
+}
+
+.medal-1 {
+  background: linear-gradient(135deg, #c7f0da, #8ddbb3);
+  box-shadow: 0 0 12px rgba(141, 219, 179, 0.35);
+  color: #0f2f22;
+}
+
+.medal-2 {
+  background: linear-gradient(135deg, #7fd6a2, #3faf6d);
+  box-shadow: 0 0 12px rgba(63, 175, 109, 0.35);
+}
+
+.lb-rank-num {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.lb-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1f9d55, #3ccf79);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+
+.lb-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.lb-name {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.lb-username {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.lb-stats {
+  display: flex;
+  gap: 24px;
+}
+
+.lb-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 70px;
+}
+
+.lb-stat-val {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.lb-stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 768px) {
+  .lb-stats {
+    gap: 12px;
+  }
+
+  .lb-stat {
+    min-width: 50px;
+  }
+}

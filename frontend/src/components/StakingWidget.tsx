@@ -1,0 +1,126 @@
+import { useState } from "react";
+import { api } from "../api";
+import { toast } from "./Toast";
+import { useCurrentUser } from "../state/currentUser";
+import "./StakingWidget.css";
+
+interface Props {
+  claimId: string;
+  onSuccess: () => void;
+}
+
+export default function StakingWidget({ claimId, onSuccess }: Props) {
+  const { currentUser } = useCurrentUser();
+  const [side, setSide] = useState<"yes" | "no">("yes");
+  const [stake, setStake] = useState(10);
+  const [confidence, setConfidence] = useState(0.7);
+  const [reasoning, setReasoning] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      await api.createPosition({
+        claim_id: claimId,
+        username: currentUser,
+        side,
+        stake,
+        confidence,
+        reasoning: reasoning.trim() ? reasoning.trim() : undefined,
+      });
+      toast(`Staked ${stake} pts on ${side === "yes" ? "True" : "False"}`, "success");
+      onSuccess();
+      setReasoning("");
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : "Failed to stake";
+      setError(msg);
+      toast(msg, "error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="staking-widget card">
+      <h3 className="staking-title">Take a Position</h3>
+
+      <div className="staking-field staking-acting-as">
+        <span className="staking-label">Acting as</span>
+        <span className="staking-value">{currentUser}</span>
+      </div>
+
+      <div className="staking-sides">
+        <button
+          className={`side-btn side-yes ${side === "yes" ? "selected" : ""}`}
+          onClick={() => setSide("yes")}
+        >
+          True
+        </button>
+        <button
+          className={`side-btn side-no ${side === "no" ? "selected" : ""}`}
+          onClick={() => setSide("no")}
+        >
+          False
+        </button>
+      </div>
+
+      <div className="staking-field">
+        <div className="staking-label-row">
+          <label className="staking-label">Stake</label>
+          <span className="staking-value">{stake} pts</span>
+        </div>
+        <input
+          type="range"
+          min={1}
+          max={500}
+          value={stake}
+          onChange={(e) => setStake(Number(e.target.value))}
+        />
+      </div>
+
+      <div className="staking-field">
+        <div className="staking-label-row">
+          <label className="staking-label">Confidence</label>
+          <span className="staking-value">{Math.round(confidence * 100)}%</span>
+        </div>
+        <input
+          type="range"
+          min={50}
+          max={99}
+          value={Math.round(confidence * 100)}
+          onChange={(e) => setConfidence(Number(e.target.value) / 100)}
+        />
+      </div>
+
+      <div className="staking-field">
+        <div className="staking-label-row">
+          <label className="staking-label">Reasoning (optional)</label>
+          <span className="staking-value">{reasoning.length}/500</span>
+        </div>
+        <textarea
+          className="staking-reasoning"
+          rows={4}
+          maxLength={500}
+          placeholder="Share why you think this is true or false..."
+          value={reasoning}
+          onChange={(e) => setReasoning(e.target.value)}
+        />
+        <span className="staking-help">
+          Visible on the claim page with your position.
+        </span>
+      </div>
+
+      {error && <div className="staking-error">{error}</div>}
+
+      <button
+        className={`btn staking-submit ${side === "yes" ? "btn-green" : "btn-red"}`}
+        onClick={handleSubmit}
+        disabled={loading}
+      >
+        {loading ? "Submitting..." : `Stake ${stake} pts on ${side === "yes" ? "True" : "False"}`}
+      </button>
+    </div>
+  );
+}

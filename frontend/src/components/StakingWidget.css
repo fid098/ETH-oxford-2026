@@ -1,0 +1,101 @@
+.staking-widget {
+  border: 1px solid var(--border-light);
+}
+
+.staking-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.staking-sides {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.side-btn {
+  padding: 14px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-input);
+  color: var(--text-secondary);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.side-yes.selected {
+  border-color: var(--accent);
+  background: var(--accent-glow);
+  color: var(--accent);
+}
+
+.side-no.selected {
+  border-color: var(--accent-red);
+  background: var(--accent-red-glow);
+  color: var(--accent-red);
+}
+
+.staking-field {
+  margin-bottom: 20px;
+}
+
+.staking-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.staking-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.staking-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.staking-acting-as {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+}
+
+.staking-reasoning {
+  min-height: 96px;
+  resize: vertical;
+}
+
+.staking-help {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.staking-error {
+  padding: 10px 14px;
+  background: var(--accent-red-glow);
+  border: 1px solid var(--accent-red);
+  border-radius: var(--radius-md);
+  color: var(--accent-red);
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.staking-submit {
+  width: 100%;
+  padding: 14px;
+  font-size: 15px;
+}
