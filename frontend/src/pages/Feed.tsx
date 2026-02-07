@@ -70,7 +70,8 @@ export default function Feed() {
     if (sort === "trending") return b.position_count - a.position_count;
     if (sort === "recent")
       return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-    return a.total_staked - b.total_staked;
+    // "ending" = oldest claims first (closest to resolution)
+    return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
   });
 
   return (

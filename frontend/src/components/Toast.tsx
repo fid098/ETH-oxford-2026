@@ -32,7 +32,7 @@ export default function ToastContainer() {
   }, []);
 
   return (
-    <div className="toast-container">
+    <div className="toast-container" aria-live="polite" role="status">
       {toasts.map((t) => (
         <div key={t.id} className={`toast toast-${t.type}`}>
           <span className="toast-icon">{t.type === "success" ? "\u2713" : "!"}</span>

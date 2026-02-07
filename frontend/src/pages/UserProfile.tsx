@@ -107,7 +107,7 @@ export default function UserProfile() {
         </div>
         <div className="profile-top-stats">
           <div className="profile-stat-card">
-            <span className="profile-stat-number text-blue">
+            <span className="profile-stat-number text-accent">
               {user.points.toLocaleString()}
             </span>
             <span className="profile-stat-desc">Points</span>

@@ -4,6 +4,7 @@ import { api, type ClaimWithOdds, type Position } from "../api";
 import StakingWidget from "../components/StakingWidget";
 import BeliefGraph from "../components/BeliefGraph";
 import { ClaimDetailSkeleton } from "../components/LoadingSkeletons";
+import { toast } from "../components/Toast";
 import "./ClaimDetail.css";
 
 export default function ClaimDetail() {
@@ -11,6 +12,17 @@ export default function ClaimDetail() {
   const [claim, setClaim] = useState<ClaimWithOdds | null>(null);
   const [positions, setPositions] = useState<Position[]>([]);
   const [loading, setLoading] = useState(true);
+  const [oracleStatus, setOracleStatus] = useState<{
+    feed: string;
+    comparator: ">" | ">=" | "<" | "<=";
+    target: number;
+    current_value: number;
+    updated_at: number;
+    would_resolve: boolean;
+    resolution_date: string | null;
+  } | null>(null);
+  const [oracleError, setOracleError] = useState<string | null>(null);
+  const [oracleChecking, setOracleChecking] = useState(false);
 
   const load = () => {
     if (!id) return;
@@ -18,10 +30,37 @@ export default function ClaimDetail() {
       setClaim(c);
       setPositions(allPos.filter((p) => p.claim_id === id));
       setLoading(false);
+    }).catch((err) => {
+      toast(err instanceof Error ? err.message : "Failed to load claim", "error");
+      setLoading(false);
     });
   };
 
   useEffect(load, [id]);
+
+  useEffect(() => {
+    if (!claim || claim.resolution_type !== "oracle") return;
+    let active = true;
+    const fetchOracle = async () => {
+      try {
+        const data = await api.getOracleStatus(claim.id);
+        if (active) {
+          setOracleStatus(data);
+          setOracleError(null);
+        }
+      } catch (err: unknown) {
+        if (active) {
+          setOracleError(err instanceof Error ? err.message : "Failed to load oracle");
+        }
+      }
+    };
+    void fetchOracle();
+    const interval = window.setInterval(fetchOracle, 30000);
+    return () => {
+      active = false;
+      window.clearInterval(interval);
+    };
+  }, [claim?.id, claim?.resolution_type]);
 
   if (loading || !claim) {
     return (
@@ -40,6 +79,26 @@ export default function ClaimDetail() {
       : claim.status === "resolved_yes"
         ? "resolved-yes"
         : "resolved-no";
+
+  const resolutionType = claim.resolution_type ?? "manual";
+
+  const handleOracleCheck = async () => {
+    if (!claim) return;
+    setOracleChecking(true);
+    try {
+      await api.checkOracle(claim.id);
+      if (claim.resolution_type === "oracle") {
+        const status = await api.getOracleStatus(claim.id);
+        setOracleStatus(status);
+        setOracleError(null);
+      }
+      load();
+    } catch (err: unknown) {
+      setOracleError(err instanceof Error ? err.message : "Failed to check oracle");
+    } finally {
+      setOracleChecking(false);
+    }
+  };
 
   return (
     <div className="page">
@@ -72,6 +131,60 @@ export default function ClaimDetail() {
           </div>
 
           <BeliefGraph positions={positions} />
+
+          {resolutionType === "oracle" && (
+            <div className="card detail-card oracle-card" style={{ marginTop: 24 }}>
+              <div className="oracle-header">
+                <h3>Oracle Resolution</h3>
+                <span className="badge badge-category">Chainlink</span>
+              </div>
+              {oracleError && (
+                <div className="oracle-error">{oracleError}</div>
+              )}
+              <div className="oracle-grid">
+                <div>
+                  <span className="oracle-label">Feed</span>
+                  <span className="oracle-value">{oracleStatus?.feed ?? "Loading..."}</span>
+                </div>
+                <div>
+                  <span className="oracle-label">Condition</span>
+                  <span className="oracle-value">
+                    {oracleStatus
+                      ? `${oracleStatus.comparator} ${oracleStatus.target}`
+                      : "Loading..."}
+                  </span>
+                </div>
+                <div>
+                  <span className="oracle-label">Current</span>
+                  <span className="oracle-value">
+                    {oracleStatus ? oracleStatus.current_value.toFixed(2) : "Loading..."}
+                  </span>
+                </div>
+                <div>
+                  <span className="oracle-label">Resolution Date</span>
+                  <span className="oracle-value">
+                    {oracleStatus?.resolution_date
+                      ? new Date(oracleStatus.resolution_date).toLocaleString()
+                      : claim.resolution_date
+                        ? new Date(claim.resolution_date).toLocaleString()
+                        : "N/A"}
+                  </span>
+                </div>
+              </div>
+              <div className="oracle-actions">
+                <span className={`oracle-outcome ${oracleStatus?.would_resolve ? "text-green" : "text-red"}`}>
+                  {oracleStatus
+                    ? oracleStatus.would_resolve
+                      ? "Would resolve TRUE"
+                      : "Would resolve FALSE"
+                    : "Checking..."}
+                </span>
+                <button className="btn btn-outline" onClick={handleOracleCheck} disabled={oracleChecking}>
+                  {oracleChecking ? "Checking..." : "Check Oracle"}
+                </button>
+              </div>
+            </div>
+          )}
 
           <div className="card detail-card" style={{ marginTop: 24 }}>
 

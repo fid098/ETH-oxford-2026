@@ -282,7 +282,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 .text-green { color: var(--accent); }
 .text-red { color: var(--accent-red); }
-.text-blue { color: var(--accent); }
+.text-accent { color: var(--accent); }
 .text-muted { color: var(--text-muted); }
 .text-secondary { color: var(--text-secondary); }
 

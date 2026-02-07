@@ -77,6 +77,64 @@
   letter-spacing: 0.5px;
 }
 
+/* ── Oracle Card ───────────────────────────────────────────────────── */
+
+.oracle-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.oracle-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.oracle-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.oracle-label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.oracle-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.oracle-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.oracle-outcome {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.oracle-error {
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(180, 35, 24, 0.3);
+  background: rgba(180, 35, 24, 0.08);
+  color: #7f1d1d;
+  font-size: 12px;
+}
+
 /* ── Positions ─────────────────────────────────────────── */
 
 .positions-section {
@@ -165,6 +223,10 @@
   }
 
   .positions-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .oracle-grid {
     grid-template-columns: 1fr;
   }
 }

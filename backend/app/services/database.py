@@ -27,7 +27,28 @@ def get_user(username: str) -> User | None:
     for u in data["users"]:
         if u["username"] == username:
             return User(**u)
+        if username.startswith("0x"):
+            if u.get("wallet_address", "").lower() == username.lower():
+                return User(**u)
+            if u.get("username", "").lower() == username.lower():
+                return User(**u)
     return None
+
+
+def get_user_by_wallet(wallet_address: str) -> User | None:
+    data = _read_db()
+    for u in data["users"]:
+        if u.get("wallet_address", "").lower() == wallet_address.lower():
+            return User(**u)
+    return None
+
+
+def add_user(user: User) -> None:
+    data = _read_db()
+    if any(u["username"] == user.username for u in data["users"]):
+        raise ValueError(f"User {user.username} already exists")
+    data["users"].append(user.model_dump())
+    _write_db(data)
 
 
 def update_user(user: User) -> None:

@@ -8,6 +8,7 @@ from datetime import datetime
 class User(BaseModel):
     username: str
     display_name: str
+    wallet_address: str | None = None
     points: float = 1000.0
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
@@ -21,6 +22,9 @@ class Claim(BaseModel):
     created_at: datetime = Field(default_factory=datetime.utcnow)
     resolved_at: datetime | None = None
     created_by: str | None = None
+    resolution_type: Literal["manual", "oracle"] = "manual"
+    resolution_date: datetime | None = None
+    oracle_config: dict | None = None
 
 
 class Position(BaseModel):
@@ -41,6 +45,9 @@ class CreateClaimRequest(BaseModel):
     description: str
     category: str
     created_by: str | None = None
+    resolution_type: Literal["manual", "oracle"] = "manual"
+    resolution_date: datetime | None = None
+    oracle_config: dict | None = None
 
 
 class CreatePositionRequest(BaseModel):
@@ -65,6 +72,9 @@ class ClaimWithOdds(BaseModel):
     created_at: datetime
     resolved_at: datetime | None = None
     created_by: str | None = None
+    resolution_type: Literal["manual", "oracle"] = "manual"
+    resolution_date: datetime | None = None
+    oracle_config: dict | None = None
     yes_percentage: float
     no_percentage: float
     total_staked: float
@@ -74,6 +84,7 @@ class ClaimWithOdds(BaseModel):
 class UserProfile(BaseModel):
     username: str
     display_name: str
+    wallet_address: str | None = None
     points: float
     accuracy: float | None = None
     total_resolved: int = 0

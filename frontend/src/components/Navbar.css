@@ -78,6 +78,28 @@
   gap: 12px;
 }
 
+.wallet-connect {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wallet-status {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.wallet-ok {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.wallet-error {
+  color: #b42318;
+  font-weight: 600;
+}
+
 .user-select {
   display: flex;
   flex-direction: column;

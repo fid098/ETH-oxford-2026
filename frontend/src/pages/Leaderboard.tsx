@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api, type UserProfile } from "../api";
 import { LeaderboardSkeleton } from "../components/LoadingSkeletons";
+import { toast } from "../components/Toast";
 import "./Leaderboard.css";
 
 export default function Leaderboard() {
@@ -11,6 +12,9 @@ export default function Leaderboard() {
   useEffect(() => {
     api.getUsers().then((data) => {
       setUsers(data);
+      setLoading(false);
+    }).catch((err) => {
+      toast(err instanceof Error ? err.message : "Failed to load leaderboard", "error");
       setLoading(false);
     });
   }, []);
@@ -55,7 +59,7 @@ export default function Leaderboard() {
                   <span className="lb-stat-label">Accuracy</span>
                 </div>
                 <div className="lb-stat">
-                  <span className="lb-stat-val text-blue">{user.points.toLocaleString()}</span>
+                  <span className="lb-stat-val text-accent">{user.points.toLocaleString()}</span>
                   <span className="lb-stat-label">Points</span>
                 </div>
                 <div className="lb-stat">

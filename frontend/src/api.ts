@@ -9,6 +9,14 @@ export interface ClaimWithOdds {
   created_at: string;
   resolved_at: string | null;
   created_by?: string | null;
+  resolution_type?: "manual" | "oracle";
+  resolution_date?: string | null;
+  oracle_config?: {
+    type: "chainlink_price";
+    feed: string;
+    comparator: ">" | ">=" | "<" | "<=";
+    target: number;
+  } | null;
   yes_percentage: number;
   no_percentage: number;
   total_staked: number;
@@ -29,6 +37,7 @@ export interface Position {
 export interface UserProfile {
   username: string;
   display_name: string;
+  wallet_address?: string | null;
   points: number;
   accuracy: number | null;
   total_resolved: number;
@@ -59,7 +68,20 @@ async function request<T>(path: string, opts?: RequestInit): Promise<T> {
 export const api = {
   getClaims: () => request<ClaimWithOdds[]>("/claims/"),
   getClaim: (id: string) => request<ClaimWithOdds>(`/claims/${id}`),
-  createClaim: (data: { title: string; description: string; category: string; created_by?: string | null }) =>
+  createClaim: (data: {
+    title: string;
+    description: string;
+    category: string;
+    created_by?: string | null;
+    resolution_type?: "manual" | "oracle";
+    resolution_date?: string | null;
+    oracle_config?: {
+      type: "chainlink_price";
+      feed: string;
+      comparator: ">" | ">=" | "<" | "<=";
+      target: number;
+    } | null;
+  }) =>
     request("/claims/", { method: "POST", body: JSON.stringify(data) }),
   deleteClaim: (id: string, username: string) =>
     request(`/claims/${id}?username=${encodeURIComponent(username)}`, { method: "DELETE" }),
@@ -68,6 +90,24 @@ export const api = {
       method: "POST",
       body: JSON.stringify({ resolution }),
     }),
+  getOracleStatus: (id: string) =>
+    request<{
+      feed: string;
+      comparator: ">" | ">=" | "<" | "<=";
+      target: number;
+      current_value: number;
+      updated_at: number;
+      would_resolve: boolean;
+      resolution_date: string | null;
+    }>(`/claims/${id}/oracle-status`),
+  checkOracle: (id: string) =>
+    request<{
+      resolved: boolean;
+      resolution?: "yes" | "no";
+      current_value: number;
+      would_resolve?: boolean;
+      resolution_date?: string;
+    }>(`/claims/${id}/check-oracle`, { method: "POST" }),
 
   getUsers: () => request<UserProfile[]>("/users/"),
   getUser: (username: string) => request<UserProfile>(`/users/${username}`),
@@ -81,4 +121,12 @@ export const api = {
     confidence: number;
     reasoning?: string | null;
   }) => request<Position>("/positions/", { method: "POST", body: JSON.stringify(data) }),
+
+  getAuthNonce: (address: string) =>
+    request<{ nonce: string }>(`/auth/nonce?address=${encodeURIComponent(address)}`),
+  connectWallet: (data: { message: string; signature: string }) =>
+    request<{ username: string; display_name: string; wallet_address: string }>(
+      "/auth/connect-wallet",
+      { method: "POST", body: JSON.stringify(data) }
+    ),
 };
