@@ -1,5 +1,8 @@
 # ETH-oxford-2026
 
+A lightweight prediction market prototype with claims, positions, and optional reasoning for each position.
+
+**Development**
 Backend:
 
 1. `cd backend`
@@ -13,3 +16,8 @@ Frontend:
 1. `cd frontend`
 2. `npm install`
 3. `npm run dev`
+
+**Notes**
+
+- The Vite dev server proxies `/api` to `http://localhost:8000` (see `frontend/vite.config.ts`).
+- If port `3000` is in use, Vite will choose the next available port (e.g. `3001`).
