@@ -1,18 +1,15 @@
 # ETH-oxford-2026
 
-Get started
+Backend:
 
-cd frontend
-npm install
+1. `cd backend`
+2. `python -m venv venv`
+3. `venv\\Scripts\\activate`
+4. `pip install -r requirements.txt`
+5. `python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000`
 
-cd backend
-python -m venv venv
-.\venv\Scripts\activate
-pip install -r requirements.txt
+Frontend:
 
-to run the project
-cd frontend
-npm run dev
-
-cd backend
-python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+1. `cd frontend`
+2. `npm install`
+3. `npm run dev`
