@@ -71,6 +71,15 @@ def update_claim(claim: Claim) -> None:
     raise ValueError(f"Claim {claim.id} not found")
 
 
+def delete_claim(claim_id: str) -> None:
+    data = _read_db()
+    original_len = len(data["claims"])
+    data["claims"] = [c for c in data["claims"] if c["id"] != claim_id]
+    if len(data["claims"]) == original_len:
+        raise ValueError(f"Claim {claim_id} not found")
+    _write_db(data)
+
+
 # ── Positions ──────────────────────────────────────────────
 
 def get_all_positions() -> list[Position]:

@@ -210,6 +210,55 @@
   background: rgba(31, 157, 85, 0.2);
 }
 
+/* ── Created Claims ────────────────────────────────────────────────── */
+
+.created-claims {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.created-claim {
+  padding: 16px 20px;
+}
+
+.created-claim-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.created-claim-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.created-claim-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  flex-wrap: wrap;
+}
+
+.created-claim-status {
+  font-weight: 600;
+}
+
+.created-claim-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.created-claim-note {
+  margin-top: 10px;
+  font-size: 12px;
+}
+
 /* ── Position Rows ─────────────────────────────────────── */
 
 .positions-list {

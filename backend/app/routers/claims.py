@@ -50,14 +50,37 @@ def get_claim(claim_id: str):
 
 @router.post("/", response_model=Claim, status_code=201)
 def create_claim(req: CreateClaimRequest):
+    if req.created_by:
+        user = database.get_user(req.created_by)
+        if user is None:
+            raise HTTPException(status_code=404, detail="User not found")
     claim = Claim(
         id=f"claim-{uuid.uuid4().hex[:8]}",
         title=req.title,
         description=req.description,
         category=req.category,
+        created_by=req.created_by,
     )
     database.add_claim(claim)
     return claim
+
+
+@router.delete("/{claim_id}", status_code=204)
+def delete_claim(claim_id: str, username: str):
+    claim = database.get_claim(claim_id)
+    if claim is None:
+        raise HTTPException(status_code=404, detail="Claim not found")
+    if claim.created_by is None:
+        raise HTTPException(status_code=400, detail="Claim has no owner")
+    if claim.created_by != username:
+        raise HTTPException(status_code=403, detail="Not allowed to delete this claim")
+
+    positions = database.get_positions_for_claim(claim_id)
+    if positions:
+        raise HTTPException(status_code=400, detail="Cannot delete a claim with positions")
+
+    database.delete_claim(claim_id)
+    return None
 
 
 @router.post("/{claim_id}/resolve", response_model=Claim)

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { api } from "../api";
 import { toast } from "./Toast";
+import { useCurrentUser } from "../state/currentUser";
 import "./StakingWidget.css";
 
 interface Props {
@@ -9,10 +10,10 @@ interface Props {
 }
 
 export default function StakingWidget({ claimId, onSuccess }: Props) {
+  const { currentUser } = useCurrentUser();
   const [side, setSide] = useState<"yes" | "no">("yes");
   const [stake, setStake] = useState(10);
   const [confidence, setConfidence] = useState(0.7);
-  const [username, setUsername] = useState("alice");
   const [reasoning, setReasoning] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -23,7 +24,7 @@ export default function StakingWidget({ claimId, onSuccess }: Props) {
     try {
       await api.createPosition({
         claim_id: claimId,
-        username,
+        username: currentUser,
         side,
         stake,
         confidence,
@@ -45,21 +46,9 @@ export default function StakingWidget({ claimId, onSuccess }: Props) {
     <div className="staking-widget card">
       <h3 className="staking-title">Take a Position</h3>
 
-      <div className="staking-field">
-        <label className="staking-label">Acting as</label>
-        <select
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        >
-          <option value="alice">alice</option>
-          <option value="bob">bob</option>
-          <option value="charlie">charlie</option>
-          <option value="diana">diana</option>
-          <option value="eve">eve</option>
-          <option value="frank">frank</option>
-          <option value="grace">grace</option>
-          <option value="hector">hector</option>
-        </select>
+      <div className="staking-field staking-acting-as">
+        <span className="staking-label">Acting as</span>
+        <span className="staking-value">{currentUser}</span>
       </div>
 
       <div className="staking-sides">

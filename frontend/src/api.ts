@@ -8,6 +8,7 @@ export interface ClaimWithOdds {
   status: "active" | "resolved_yes" | "resolved_no";
   created_at: string;
   resolved_at: string | null;
+  created_by?: string | null;
   yes_percentage: number;
   no_percentage: number;
   total_staked: number;
@@ -45,14 +46,23 @@ async function request<T>(path: string, opts?: RequestInit): Promise<T> {
     const err = await res.json().catch(() => ({ detail: res.statusText }));
     throw new Error(err.detail || "Request failed");
   }
-  return res.json();
+  if (res.status === 204) {
+    return null as T;
+  }
+  const text = await res.text();
+  if (!text) {
+    return null as T;
+  }
+  return JSON.parse(text) as T;
 }
 
 export const api = {
   getClaims: () => request<ClaimWithOdds[]>("/claims/"),
   getClaim: (id: string) => request<ClaimWithOdds>(`/claims/${id}`),
-  createClaim: (data: { title: string; description: string; category: string }) =>
+  createClaim: (data: { title: string; description: string; category: string; created_by?: string | null }) =>
     request("/claims/", { method: "POST", body: JSON.stringify(data) }),
+  deleteClaim: (id: string, username: string) =>
+    request(`/claims/${id}?username=${encodeURIComponent(username)}`, { method: "DELETE" }),
   resolveClaim: (id: string, resolution: "yes" | "no") =>
     request(`/claims/${id}/resolve`, {
       method: "POST",

@@ -20,6 +20,7 @@ class Claim(BaseModel):
     status: Literal["active", "resolved_yes", "resolved_no"] = "active"
     created_at: datetime = Field(default_factory=datetime.utcnow)
     resolved_at: datetime | None = None
+    created_by: str | None = None
 
 
 class Position(BaseModel):
@@ -39,6 +40,7 @@ class CreateClaimRequest(BaseModel):
     title: str
     description: str
     category: str
+    created_by: str | None = None
 
 
 class CreatePositionRequest(BaseModel):
@@ -62,6 +64,7 @@ class ClaimWithOdds(BaseModel):
     status: Literal["active", "resolved_yes", "resolved_no"]
     created_at: datetime
     resolved_at: datetime | None = None
+    created_by: str | None = None
     yes_percentage: float
     no_percentage: float
     total_staked: float

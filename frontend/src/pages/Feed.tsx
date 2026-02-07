@@ -3,6 +3,7 @@ import { api, type ClaimWithOdds, type Position } from "../api";
 import ClaimCard from "../components/ClaimCard";
 import CreateClaimModal from "../components/CreateClaimModal";
 import { FeedSkeleton } from "../components/LoadingSkeletons";
+import { toast } from "../components/Toast";
 import "./Feed.css";
 
 type SortMode = "trending" | "recent" | "ending";
@@ -18,15 +19,32 @@ export default function Feed() {
   const [loading, setLoading] = useState(true);
   const [showCreate, setShowCreate] = useState(false);
 
-  const load = () => {
-    Promise.all([api.getClaims(), api.getPositions()]).then(([c, p]) => {
-      setClaims(c);
-      setPositions(p);
-      setLoading(false);
-    });
+  const load = async () => {
+    setLoading(true);
+    const [claimsResult, positionsResult] = await Promise.allSettled([
+      api.getClaims(),
+      api.getPositions(),
+    ]);
+
+    if (claimsResult.status === "fulfilled") {
+      setClaims(claimsResult.value);
+    } else {
+      toast(claimsResult.reason?.message ?? "Failed to load claims", "error");
+    }
+
+    if (positionsResult.status === "fulfilled") {
+      setPositions(positionsResult.value);
+    } else {
+      setPositions([]);
+      toast(positionsResult.reason?.message ?? "Failed to load positions", "error");
+    }
+
+    setLoading(false);
   };
 
-  useEffect(load, []);
+  useEffect(() => {
+    void load();
+  }, []);
 
   const categories = useMemo(() => {
     const unique = new Set(claims.map((c) => c.category));

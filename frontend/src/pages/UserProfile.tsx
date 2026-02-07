@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { api, type UserProfile as UserProfileType, type ClaimWithOdds } from "../api";
 import { ProfileSkeleton } from "../components/LoadingSkeletons";
+import { toast } from "../components/Toast";
 import "./UserProfile.css";
 
 export default function UserProfile() {
@@ -9,6 +10,7 @@ export default function UserProfile() {
   const [user, setUser] = useState<UserProfileType | null>(null);
   const [claims, setClaims] = useState<ClaimWithOdds[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   useEffect(() => {
     if (!username) return;
@@ -37,6 +39,7 @@ export default function UserProfile() {
   }
 
   const categories = Object.entries(user.category_stats);
+  const myClaims = claims.filter((claim) => claim.created_by === user.username);
 
   const calibrationBuckets = [
     { min: 0.5, max: 0.59, label: "50-59%" },
@@ -74,6 +77,21 @@ export default function UserProfile() {
   });
 
   const hasCalibration = calibrationData.some((d) => d.total > 0);
+
+  const handleDeleteClaim = async (claimId: string) => {
+    if (!window.confirm("Delete this claim? This cannot be undone.")) return;
+    setDeletingId(claimId);
+    try {
+      await api.deleteClaim(claimId, user.username);
+      setClaims((prev) => prev.filter((c) => c.id !== claimId));
+      toast("Claim deleted", "success");
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Failed to delete claim";
+      toast(message, "error");
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   return (
     <div className="page">
@@ -177,6 +195,56 @@ export default function UserProfile() {
         ) : (
           <div className="card">
             <p className="text-muted">Not enough resolved positions to calibrate yet.</p>
+          </div>
+        )}
+      </div>
+
+      <div className="profile-section">
+        <h2 className="section-title">
+          Claims Created ({myClaims.length})
+        </h2>
+        {myClaims.length === 0 ? (
+          <p className="text-muted">No claims created yet</p>
+        ) : (
+          <div className="created-claims">
+            {myClaims.map((claim) => {
+              const canDelete = claim.position_count === 0;
+              return (
+                <div key={claim.id} className="created-claim card">
+                  <div className="created-claim-main">
+                    <div>
+                      <h3 className="created-claim-title">{claim.title}</h3>
+                      <div className="created-claim-meta text-secondary">
+                        <span className="badge badge-category">{claim.category}</span>
+                        <span className="created-claim-status">
+                          {claim.status === "active" ? "Active" : claim.status === "resolved_yes" ? "Resolved Yes" : "Resolved No"}
+                        </span>
+                        <span>{new Date(claim.created_at).toLocaleDateString()}</span>
+                        <span>{claim.position_count} positions</span>
+                      </div>
+                    </div>
+                    <div className="created-claim-actions">
+                      <Link to={`/claim/${claim.id}`} className="btn btn-outline">
+                        View
+                      </Link>
+                      <button
+                        className="btn btn-red"
+                        disabled={!canDelete || deletingId === claim.id}
+                        onClick={() => handleDeleteClaim(claim.id)}
+                        title={canDelete ? "Delete claim" : "Cannot delete a claim with positions"}
+                      >
+                        {deletingId === claim.id ? "Deleting..." : "Delete"}
+                      </button>
+                    </div>
+                  </div>
+                  {!canDelete && (
+                    <div className="created-claim-note text-muted">
+                      Claims with positions cannot be deleted.
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         )}
       </div>

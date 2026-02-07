@@ -1,8 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
+import { useCurrentUser } from "../state/currentUser";
 import "./Navbar.css";
 
 export default function Navbar() {
   const location = useLocation();
+  const { currentUser, setCurrentUser, users } = useCurrentUser();
 
   return (
     <nav className="navbar">
@@ -20,15 +22,17 @@ export default function Navbar() {
           </Link>
           <Link
             to="/leaderboard"
-            className={`nav-link ${location.pathname === "/leaderboard" ? "active" : ""}`}
+            className={`nav-link ${
+              location.pathname === "/leaderboard" ? "active" : ""
+            }`}
           >
             Leaderboard
           </Link>
         </div>
         <div className="navbar-user">
-          <Link to="/user/alice" className="user-chip">
-            <div className="user-avatar">A</div>
-            <span>alice</span>
+          <Link to={`/user/${currentUser}`} className="user-chip">
+            <div className="user-avatar">{currentUser[0].toUpperCase()}</div>
+            <span>{currentUser}</span>
           </Link>
         </div>
       </div>

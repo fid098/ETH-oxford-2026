@@ -75,6 +75,31 @@
 .navbar-user {
   display: flex;
   align-items: center;
+  gap: 12px;
+}
+
+.user-select {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.user-select-label {
+  font-size: 10px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.user-select select {
+  min-width: 140px;
+  padding: 6px 10px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 12px;
 }
 
 .user-chip {

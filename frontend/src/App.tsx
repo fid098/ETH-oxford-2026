@@ -5,10 +5,11 @@ import Feed from "./pages/Feed";
 import ClaimDetail from "./pages/ClaimDetail";
 import UserProfile from "./pages/UserProfile";
 import Leaderboard from "./pages/Leaderboard";
+import { CurrentUserProvider } from "./state/currentUser";
 
 function App() {
   return (
-    <>
+    <CurrentUserProvider>
       <Navbar />
       <ToastContainer />
       <div className="app-container">
@@ -19,7 +20,7 @@ function App() {
           <Route path="/leaderboard" element={<Leaderboard />} />
         </Routes>
       </div>
-    </>
+    </CurrentUserProvider>
   );
 }
 
