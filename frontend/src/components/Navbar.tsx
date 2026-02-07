@@ -24,6 +24,12 @@ export default function Navbar() {
           >
             Leaderboard
           </Link>
+          <Link 
+            to="/analytics" 
+            className={`nav-link ${location.pathname === "/analytics" ? "active" : ""}`}
+          >
+          Analytics
+          </Link>
         </div>
         <div className="navbar-user">
           <Link to="/user/alice" className="user-chip">
