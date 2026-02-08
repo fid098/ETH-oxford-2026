@@ -3,10 +3,12 @@ import { useParams, Link } from "react-router-dom";
 import { api, type UserProfile as UserProfileType, type ClaimWithOdds } from "../api";
 import { ProfileSkeleton } from "../components/LoadingSkeletons";
 import { toast } from "../components/Toast";
+import { useCurrentUser } from "../state/currentUser";
 import "./UserProfile.css";
 
 export default function UserProfile() {
   const { username } = useParams<{ username: string }>();
+  const { currentUser } = useCurrentUser();
   const [user, setUser] = useState<UserProfileType | null>(null);
   const [claims, setClaims] = useState<ClaimWithOdds[]>([]);
   const [loading, setLoading] = useState(true);
@@ -64,6 +66,7 @@ export default function UserProfile() {
   }
 
   const categories = Object.entries(user.category_stats);
+  const isOwnProfile = currentUser === user.username;
   const myClaims = claims.filter((claim) => claim.created_by === user.username);
 
   const calibrationBuckets = [
@@ -259,17 +262,19 @@ export default function UserProfile() {
                       <Link to={`/claim/${claim.id}`} className="btn btn-outline">
                         View
                       </Link>
-                      <button
-                        className="btn btn-red"
-                        disabled={!canDelete || deletingId === claim.id}
-                        onClick={() => handleDeleteClaim(claim.id)}
-                        title={canDelete ? "Delete claim" : "Cannot delete a claim with positions"}
-                      >
-                        {deletingId === claim.id ? "Deleting..." : "Delete"}
-                      </button>
+                      {isOwnProfile && (
+                        <button
+                          className="btn btn-red"
+                          disabled={!canDelete || deletingId === claim.id}
+                          onClick={() => handleDeleteClaim(claim.id)}
+                          title={canDelete ? "Delete claim" : "Cannot delete a claim with positions"}
+                        >
+                          {deletingId === claim.id ? "Deleting..." : "Delete"}
+                        </button>
+                      )}
                     </div>
                   </div>
-                  {!canDelete && (
+                  {isOwnProfile && !canDelete && (
                     <div className="created-claim-note text-muted">
                       Claims with positions cannot be deleted.
                     </div>
