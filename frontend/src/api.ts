@@ -46,6 +46,16 @@ export interface UserProfile {
   resolved_positions: Position[];
 }
 
+export interface AnalyticsData {
+  tvl: number;
+  sentiment: number;
+  history: Array<{
+    date: string;
+    value: number;
+    count: number;
+  }>;
+}
+
 async function request<T>(path: string, opts?: RequestInit): Promise<T> {
   const res = await fetch(`${BASE}${path}`, {
     headers: { "Content-Type": "application/json" },
@@ -131,4 +141,5 @@ export const api = {
       "/auth/connect-wallet",
       { method: "POST", body: JSON.stringify(data) }
     ),
+  getAnalytics: () => request<AnalyticsData>("/analytics"),
 };

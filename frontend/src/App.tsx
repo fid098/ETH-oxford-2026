@@ -6,6 +6,7 @@ import ClaimDetail from "./pages/ClaimDetail";
 import UserProfile from "./pages/UserProfile";
 import Leaderboard from "./pages/Leaderboard";
 import { CurrentUserProvider } from "./state/currentUser";
+import MarketAnalytics from "./pages/MarketAnalytics";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/claim/:id" element={<ClaimDetail />} />
           <Route path="/user/:username" element={<UserProfile />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/analytics" element={<MarketAnalytics />} />
         </Routes>
       </div>
     </CurrentUserProvider>
