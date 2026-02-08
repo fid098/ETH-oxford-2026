@@ -1,6 +1,10 @@
 from pydantic import BaseModel, Field
 from typing import Literal
-from datetime import datetime
+from datetime import datetime, timezone
+
+
+def _utcnow() -> datetime:
+    return datetime.now(timezone.utc)
 
 
 # ── Domain Models ──────────────────────────────────────────
@@ -10,7 +14,7 @@ class User(BaseModel):
     display_name: str
     wallet_address: str | None = None
     points: float = 1000.0
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=_utcnow)
 
 
 class Claim(BaseModel):
@@ -19,7 +23,7 @@ class Claim(BaseModel):
     description: str
     category: str
     status: Literal["active", "resolved_yes", "resolved_no"] = "active"
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=_utcnow)
     resolved_at: datetime | None = None
     created_by: str | None = None
     resolution_type: Literal["manual", "oracle"] = "manual"
@@ -34,15 +38,15 @@ class Position(BaseModel):
     side: Literal["yes", "no"]
     stake: float
     confidence: float = Field(ge=0.5, le=0.99)
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=_utcnow)
     reasoning: str | None = None
 
 
 # ── Request / Response Schemas ─────────────────────────────
 
 class CreateClaimRequest(BaseModel):
-    title: str
-    description: str
+    title: str = Field(max_length=200)
+    description: str = Field(max_length=2000)
     category: str
     created_by: str | None = None
     resolution_type: Literal["manual", "oracle"] = "manual"
@@ -61,6 +65,7 @@ class CreatePositionRequest(BaseModel):
 
 class ResolveClaimRequest(BaseModel):
     resolution: Literal["yes", "no"]
+    username: str
 
 
 class ClaimWithOdds(BaseModel):

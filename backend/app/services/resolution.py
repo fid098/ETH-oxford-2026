@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from app.models.schemas import Claim, Position
 from app.services import database
 
@@ -27,13 +27,14 @@ def resolve_claim(claim_id: str, resolution: str) -> Claim:
         if user is None:
             continue
         share = (w.stake / winner_total_stake) * loser_pool if winner_total_stake > 0 else 0
-        updated = user.model_copy(update={"points": user.points + share})
+        # Return original stake + share of loser pool
+        updated = user.model_copy(update={"points": user.points + w.stake + share})
         database.update_user(updated)
 
     # Update claim status
     new_status = "resolved_yes" if resolved_yes else "resolved_no"
     updated_claim = claim.model_copy(
-        update={"status": new_status, "resolved_at": datetime.utcnow()}
+        update={"status": new_status, "resolved_at": datetime.now(timezone.utc)}
     )
     database.update_claim(updated_claim)
     return updated_claim

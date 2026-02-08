@@ -57,8 +57,8 @@ def get_provider_label() -> str:
 
 
 def get_chainlink_price(feed: str) -> OracleResult:
-    address = CHAINLINK_FEEDS.get(feed, feed)
-    if not Web3.is_address(address):
+    address = CHAINLINK_FEEDS.get(feed)
+    if address is None:
         raise ValueError(f"Unsupported feed: {feed}")
 
     try:

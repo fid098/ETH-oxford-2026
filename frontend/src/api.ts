@@ -85,10 +85,10 @@ export const api = {
     request("/claims/", { method: "POST", body: JSON.stringify(data) }),
   deleteClaim: (id: string, username: string) =>
     request(`/claims/${id}?username=${encodeURIComponent(username)}`, { method: "DELETE" }),
-  resolveClaim: (id: string, resolution: "yes" | "no") =>
+  resolveClaim: (id: string, resolution: "yes" | "no", username: string) =>
     request(`/claims/${id}/resolve`, {
       method: "POST",
-      body: JSON.stringify({ resolution }),
+      body: JSON.stringify({ resolution, username }),
     }),
   getOracleStatus: (id: string) =>
     request<{
