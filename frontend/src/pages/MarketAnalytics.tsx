@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import CreateClaimModal from "../components/CreateClaimModal"; 
-import { api } from "../api"; 
+import { api, type AnalyticsData } from "../api"; 
 import './MarketAnalytics.css';
 
 // --- ICONS ---
@@ -14,24 +14,23 @@ const IconZap = () => (
 );
 
 export default function MarketAnalytics() {
-  const [stats, setStats] = useState({
-    tvl: 3540,
-    sentiment: 72, 
-    history: [],
-    top_categories: []
-  });
+  const [stats, setStats] = useState<AnalyticsData | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const [showCreate, setShowCreate] = useState(false);
 
   useEffect(() => {
-    const loadData = () => api.getAnalytics().then(setStats);
+    const loadData = () =>
+      api.getAnalytics()
+        .then((data) => { setStats(data); setLoading(false); })
+        .catch(() => setLoading(false));
     loadData();
     const interval = setInterval(loadData, 10000);
     return () => clearInterval(interval);
   }, []);
 
   const handleCreated = () => {
-    api.getAnalytics().then(data => setStats(data)); 
+    api.getAnalytics().then(setStats).catch(() => {});
     setShowCreate(false);
   };
 
@@ -42,6 +41,11 @@ export default function MarketAnalytics() {
         Global oracle data and platform health.
       </p>
 
+      {loading || !stats ? (
+        <div className="card" style={{ padding: 40, textAlign: 'center' }}>
+          <p className="text-muted">Loading analytics...</p>
+        </div>
+      ) : (
       <div className="analytics-grid">
         {/* Total Value Locked */}
         <div className="card col-span-2" style={{ padding: '24px' }}>
@@ -139,6 +143,7 @@ export default function MarketAnalytics() {
         </div>
 
       </div>
+      )}
       <CreateClaimModal 
         open={showCreate} 
         onClose={() => setShowCreate(false)} 

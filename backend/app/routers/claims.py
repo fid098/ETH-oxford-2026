@@ -58,9 +58,14 @@ def create_claim(req: CreateClaimRequest):
     oracle_config = req.oracle_config
     resolution_type = req.resolution_type
 
+    if resolution_type == "manual":
+        oracle_config = None
+
     if resolution_type == "oracle":
         if not req.resolution_date:
             raise HTTPException(status_code=400, detail="Missing resolution date")
+        if req.resolution_date <= datetime.now(timezone.utc):
+            raise HTTPException(status_code=400, detail="Resolution date must be in the future")
         if not isinstance(oracle_config, dict):
             raise HTTPException(status_code=400, detail="Missing oracle config")
         oracle_type = oracle_config.get("type")

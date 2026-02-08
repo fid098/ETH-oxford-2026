@@ -35,9 +35,12 @@ def get_analytics():
         # Aggregate Stakes by Date
         daily_data = defaultdict(lambda: {"stakes_count": 0, "total_value": 0})
         for p in positions_list:
-            date_str = p["created_at"].split("T")[0]
+            raw = p.get("created_at", "")
+            date_str = raw.split("T")[0] if "T" in raw else raw.split(" ")[0]
+            if not date_str:
+                continue
             daily_data[date_str]["stakes_count"] += 1
-            daily_data[date_str]["total_value"] += p["stake"]
+            daily_data[date_str]["total_value"] += p.get("stake", 0)
         
         # Sort history for the graph
         sorted_history = []

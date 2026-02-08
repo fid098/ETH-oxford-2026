@@ -54,6 +54,10 @@ export interface AnalyticsData {
     value: number;
     count: number;
   }>;
+  top_categories: Array<{
+    name: string;
+    count: number;
+  }>;
 }
 
 async function request<T>(path: string, opts?: RequestInit): Promise<T> {

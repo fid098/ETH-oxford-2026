@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useAccount, useChainId, useSignMessage } from "wagmi";
 import { api } from "../api";
 import { toast } from "../components/Toast";
@@ -46,7 +46,11 @@ export function CurrentUserProvider({ children }: { children: ReactNode }) {
     return `${domain} wants you to sign in with your Ethereum account:\n${addr}\n\n${statement}\n\nURI: ${origin}\nVersion: 1\nChain ID: ${chainId}\nNonce: ${nonce}\nIssued At: ${issuedAt}`;
   };
 
+  const linkingRef = useRef(false);
+
   const linkWallet = async (addr: string) => {
+    if (linkingRef.current) return;
+    linkingRef.current = true;
     try {
       setWalletError(null);
       setWalletStatus("signing");
@@ -63,6 +67,8 @@ export function CurrentUserProvider({ children }: { children: ReactNode }) {
       setWalletError(message);
       setWalletStatus("error");
       toast(message, "error");
+    } finally {
+      linkingRef.current = false;
     }
   };
 
