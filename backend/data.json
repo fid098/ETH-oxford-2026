@@ -52,7 +52,7 @@
       "username": "0x4e022712847bD731f8342096cDb1Efc624cDb72D",
       "display_name": "0x4e02...b72D",
       "wallet_address": "0x4e022712847bD731f8342096cDb1Efc624cDb72D",
-      "points": 834.0,
+      "points": 315.0,
       "created_at": "2026-02-07 20:16:50.710282"
     }
   ],
@@ -170,21 +170,39 @@
       "created_by": "eve"
     },
     {
-      "id": "claim-2a16a177",
-      "title": "The bitcoin game is going to blow up",
-      "description": "I have the feeling that AI is going to have a huge say in the improvement of bitcoin",
-      "category": "crypto",
+      "id": "claim-fe7b1c7b",
+      "title": "test",
+      "description": "this is a test",
+      "category": "ai",
       "status": "active",
-      "created_at": "2026-02-07 20:21:41.882532",
+      "created_at": "2026-02-08 11:52:52.667136+00:00",
       "resolved_at": null,
       "created_by": "0x4e022712847bD731f8342096cDb1Efc624cDb72D",
       "resolution_type": "oracle",
-      "resolution_date": "2026-02-07 20:21:00+00:00",
+      "resolution_date": "2026-02-14 11:52:00+00:00",
       "oracle_config": {
         "type": "chainlink_price",
-        "feed": "BTC/USD",
-        "comparator": ">",
-        "target": 100.0
+        "feed": "ETH/USD",
+        "comparator": "<",
+        "target": 200.0
+      }
+    },
+    {
+      "id": "claim-81627834",
+      "title": "the bitcoin market will explode",
+      "description": "test",
+      "category": "crypto",
+      "status": "active",
+      "created_at": "2026-02-08 12:04:26.921983+00:00",
+      "resolved_at": null,
+      "created_by": "0x4e022712847bD731f8342096cDb1Efc624cDb72D",
+      "resolution_type": "oracle",
+      "resolution_date": "2026-02-18 12:04:00+00:00",
+      "oracle_config": {
+        "type": "chainlink_price",
+        "feed": "ETH/USD",
+        "comparator": "<=",
+        "target": 200.0
       }
     }
   ],
@@ -538,6 +556,36 @@
       "confidence": 0.7,
       "created_at": "2026-02-07 20:20:05.983819",
       "reasoning": null
+    },
+    {
+      "id": "pos-adde0899",
+      "claim_id": "claim-1",
+      "username": "0x4e022712847bD731f8342096cDb1Efc624cDb72D",
+      "side": "no",
+      "stake": 39.0,
+      "confidence": 0.8,
+      "created_at": "2026-02-08 11:39:24.337224+00:00",
+      "reasoning": null
+    },
+    {
+      "id": "pos-ec76de6a",
+      "claim_id": "claim-1",
+      "username": "0x4e022712847bD731f8342096cDb1Efc624cDb72D",
+      "side": "yes",
+      "stake": 201.0,
+      "confidence": 0.83,
+      "created_at": "2026-02-08 11:51:56.482016+00:00",
+      "reasoning": "i dont believe thats true"
+    },
+    {
+      "id": "pos-27070631",
+      "claim_id": "claim-1",
+      "username": "0x4e022712847bD731f8342096cDb1Efc624cDb72D",
+      "side": "no",
+      "stake": 279.0,
+      "confidence": 0.87,
+      "created_at": "2026-02-08 12:05:27.484454+00:00",
+      "reasoning": "i dont believe this will true"
     }
   ]
 }

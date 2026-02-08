@@ -41,6 +41,13 @@
   box-shadow: 0 8px 14px rgba(31, 157, 85, 0.25);
 }
 
+.logo-icon-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 7px;
+  box-shadow: 0 8px 14px rgba(31, 157, 85, 0.25);
+}
+
 .logo-text {
   background: linear-gradient(90deg, var(--text-primary), var(--accent));
   -webkit-background-clip: text;

@@ -24,7 +24,7 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="navbar-inner">
         <Link to="/" className="navbar-logo">
-          <div className="logo-icon">O</div>
+          <img src="/favicon.svg" alt="Oracle" className="logo-icon-img" />
           <span className="logo-text">Oracle</span>
         </Link>
         <div className="navbar-links">
@@ -42,11 +42,13 @@ export default function Navbar() {
           >
             Leaderboard
           </Link>
-          <Link 
-            to="/analytics" 
-            className={`nav-link ${location.pathname === "/analytics" ? "active" : ""}`}
+          <Link
+            to="/analytics"
+            className={`nav-link ${
+              location.pathname === "/analytics" ? "active" : ""
+            }`}
           >
-          Analytics
+            Analytics
           </Link>
         </div>
         <div className="navbar-user">
@@ -80,7 +82,9 @@ export default function Navbar() {
                 onChange={(e) => setCurrentUser(e.target.value)}
               >
                 {users.map((u) => (
-                  <option key={u} value={u}>{u}</option>
+                  <option key={u} value={u}>
+                    {u}
+                  </option>
                 ))}
               </select>
               <Link to={`/user/${currentUser}`} className="user-chip">
