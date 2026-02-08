@@ -51,7 +51,7 @@ export default function MarketAnalytics() {
         <div className="card col-span-2" style={{ padding: '24px' }}>
           <div className="analytics-card-header">
             <div>
-              <span className="analytics-label">Total Stakes</span>
+              <span className="analytics-label">Total Market Stakes</span>
               <div className="analytics-big-val">
                 {stats.tvl.toLocaleString()} <span style={{ fontSize: '16px', color: '#2fd07a' }}>PTS</span>
               </div>
@@ -95,10 +95,10 @@ export default function MarketAnalytics() {
         {/* Sentiment Gauge */}
         <div className="card" style={{ padding: '24px' }}>
           <div className="analytics-card-header">
-            <span className="analytics-label">Sentiment</span>
+            <span className="analytics-label">Market Sentiment</span>
             <IconZap />
           </div>
-          <div style={{ fontSize: '24px', fontWeight: 800 }}>{stats.sentiment}% Bullish</div>
+          <div style={{ fontSize: '24px', fontWeight: 800 }}>{stats.sentiment}% Optimistic</div>
           <div className="sentiment-bar-bg">
             <div className="sentiment-bar-fill" style={{ width: `${stats.sentiment}%` }} />
           </div>
