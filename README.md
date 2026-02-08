@@ -42,7 +42,7 @@ Chainlink Price Feeds (Ethereum mainnet via Web3 RPC)
 2. `python -m venv venv`
 3. `venv\Scripts\activate`
 4. `pip install -r requirements.txt`
-5. `python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000`
+5. `uvicorn app.main:app `
 
 **Frontend:**
 
@@ -52,29 +52,30 @@ Chainlink Price Feeds (Ethereum mainnet via Web3 RPC)
 
 ## Environment Variables
 
-| Variable                        | Purpose                                         | Default                                    |
-| ------------------------------- | ----------------------------------------------- | ------------------------------------------ |
-| `WEB3_PROVIDER_URL`             | Ethereum mainnet RPC for Chainlink oracle reads | Public RPC fallback list (no API key)      |
-| `VITE_WALLETCONNECT_PROJECT_ID` | WalletConnect project ID for RainbowKit         | (none)                                     |
+| Variable                        | Purpose                                         | Default                               |
+| ------------------------------- | ----------------------------------------------- | ------------------------------------- |
+| `WEB3_PROVIDER_URL`             | Ethereum mainnet RPC for Chainlink oracle reads | Public RPC fallback list (no API key) |
+| `VITE_WALLETCONNECT_PROJECT_ID` | WalletConnect project ID for RainbowKit         | (none)                                |
 
 ## API Routes
 
-| Method | Path                             | Purpose                          |
-| ------ | -------------------------------- | -------------------------------- |
-| GET    | `/api/claims/`                   | List all claims with odds        |
-| GET    | `/api/claims/{id}`               | Single claim with odds           |
-| POST   | `/api/claims/`                   | Create claim                     |
-| DELETE | `/api/claims/{id}?username=`     | Delete empty claim (owner only)  |
-| POST   | `/api/claims/{id}/resolve`       | Manual resolve                   |
-| GET    | `/api/claims/{id}/oracle-status` | Live oracle price data           |
-| POST   | `/api/claims/{id}/check-oracle`  | Trigger oracle resolution check  |
-| GET    | `/api/users/`                    | All users with profiles          |
-| GET    | `/api/users/{username}`          | Single user with category stats  |
-| GET    | `/api/positions/`                | All positions                    |
-| POST   | `/api/positions/`                | Create position (deducts points) |
-| GET    | `/api/auth/nonce?address=`       | Get SIWE nonce                   |
-| POST   | `/api/auth/connect-wallet`       | Verify SIWE signature            |
-| GET    | `/api/health`                    | Health check                     |
+| Method | Path                             | Purpose                                    |
+| ------ | -------------------------------- | ------------------------------------------ |
+| GET    | `/api/claims/`                   | List all claims with odds                  |
+| GET    | `/api/claims/{id}`               | Single claim with odds                     |
+| POST   | `/api/claims/`                   | Create claim                               |
+| DELETE | `/api/claims/{id}?username=`     | Delete empty claim (owner only)            |
+| POST   | `/api/claims/{id}/resolve`       | Manual resolve (creator only)              |
+| GET    | `/api/claims/{id}/oracle-status` | Live oracle price data                     |
+| POST   | `/api/claims/{id}/check-oracle`  | Trigger oracle resolution check            |
+| GET    | `/api/users/`                    | All users with profiles                    |
+| GET    | `/api/users/{username}`          | Single user with category stats            |
+| GET    | `/api/positions/`                | All positions                              |
+| POST   | `/api/positions/`                | Create position (deducts points)           |
+| GET    | `/api/auth/nonce?address=`       | Get SIWE nonce                             |
+| POST   | `/api/auth/connect-wallet`       | Verify SIWE signature                      |
+| GET    | `/api/analytics`                 | Market analytics (TVL, sentiment, history) |
+| GET    | `/api/health`                    | Health check                               |
 
 ## User Flows
 
@@ -84,11 +85,13 @@ Chainlink Price Feeds (Ethereum mainnet via Web3 RPC)
 
 **Take a Position** - On the claim detail page, pick a side (True/False), stake amount, confidence level, and optional reasoning. Points are deducted immediately.
 
-**Claim Resolution** - Manual claims are resolved by posting a resolution. Oracle claims auto-resolve when their Chainlink price condition is met after the resolution date. Losers' stake pool is redistributed to winners proportionally.
+**Claim Resolution** - Manual claims are resolved by the claim creator. Oracle claims auto-resolve when their Chainlink price condition is met after the resolution date. Winners receive their original stake back plus a proportional share of the losers' stake pool.
 
 **User Profile** - Shows points, accuracy, category breakdown with progress bars, confidence calibration chart (stated confidence vs actual accuracy), created claims list, and active/resolved position history.
 
 **Leaderboard** - Users ranked by prediction accuracy with medals for top 3.
+
+**Market Analytics** - Dashboard showing total value locked (TVL), market sentiment, staking activity over time, and top categories.
 
 **Wallet Auth** - RainbowKit connect button triggers SIWE flow: request nonce, sign message, verify on backend. New wallet addresses auto-create a user record.
 
