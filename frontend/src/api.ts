@@ -46,6 +46,16 @@ export interface UserProfile {
   resolved_positions: Position[];
 }
 
+export interface AnalyticsData {
+  tvl: number;
+  sentiment: number;
+  history: Array<{
+    date: string;
+    value: number;
+    count: number;
+  }>;
+}
+
 async function request<T>(path: string, opts?: RequestInit): Promise<T> {
   const res = await fetch(`${BASE}${path}`, {
     headers: { "Content-Type": "application/json" },
@@ -85,10 +95,10 @@ export const api = {
     request("/claims/", { method: "POST", body: JSON.stringify(data) }),
   deleteClaim: (id: string, username: string) =>
     request(`/claims/${id}?username=${encodeURIComponent(username)}`, { method: "DELETE" }),
-  resolveClaim: (id: string, resolution: "yes" | "no") =>
+  resolveClaim: (id: string, resolution: "yes" | "no", username: string) =>
     request(`/claims/${id}/resolve`, {
       method: "POST",
-      body: JSON.stringify({ resolution }),
+      body: JSON.stringify({ resolution, username }),
     }),
   getOracleStatus: (id: string) =>
     request<{
@@ -131,4 +141,5 @@ export const api = {
       "/auth/connect-wallet",
       { method: "POST", body: JSON.stringify(data) }
     ),
+  getAnalytics: () => request<AnalyticsData>("/analytics"),
 };

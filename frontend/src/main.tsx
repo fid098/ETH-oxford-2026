@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import { WagmiConfig } from "wagmi";
+import { WagmiProvider } from "wagmi";
 import { mainnet } from "wagmi/chains";
 import { getDefaultConfig, RainbowKitProvider, lightTheme } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -24,7 +24,7 @@ const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <WagmiConfig config={wagmiConfig}>
+    <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider theme={lightTheme({ accentColor: '#166534', accentColorForeground: 'white' })}>
           <BrowserRouter>
@@ -32,6 +32,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           </BrowserRouter>
         </RainbowKitProvider>
       </QueryClientProvider>
-    </WagmiConfig>
+    </WagmiProvider>
   </React.StrictMode>
 );

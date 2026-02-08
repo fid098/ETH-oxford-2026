@@ -71,6 +71,8 @@ def create_claim(req: CreateClaimRequest):
             raise HTTPException(status_code=400, detail="Unsupported oracle type")
         if not feed or not comparator or target is None:
             raise HTTPException(status_code=400, detail="Incomplete oracle config")
+        if feed not in oracle.CHAINLINK_FEEDS:
+            raise HTTPException(status_code=400, detail=f"Unsupported oracle feed: {feed}")
         if comparator not in [">", ">=", "<", "<="]:
             raise HTTPException(status_code=400, detail="Invalid comparator")
         try:
@@ -117,6 +119,11 @@ def delete_claim(claim_id: str, username: str):
 
 @router.post("/{claim_id}/resolve", response_model=Claim)
 def resolve(claim_id: str, req: ResolveClaimRequest):
+    claim = database.get_claim(claim_id)
+    if claim is None:
+        raise HTTPException(status_code=404, detail="Claim not found")
+    if claim.created_by is None or claim.created_by != req.username:
+        raise HTTPException(status_code=403, detail="Only the claim creator can resolve it")
     try:
         return resolve_claim(claim_id, req.resolution)
     except ValueError as e:
@@ -182,7 +189,7 @@ def check_oracle(claim_id: str):
     would_resolve = oracle.evaluate_condition(result.value, comparator, float(target))
     resolution_date = _normalize_resolution_date(claim.resolution_date)
 
-    if resolution_date and datetime.utcnow() < resolution_date:
+    if resolution_date and datetime.now(timezone.utc).replace(tzinfo=None) < resolution_date:
         return {
             "resolved": False,
             "would_resolve": would_resolve,

@@ -5,8 +5,8 @@ import Feed from "./pages/Feed";
 import ClaimDetail from "./pages/ClaimDetail";
 import UserProfile from "./pages/UserProfile";
 import Leaderboard from "./pages/Leaderboard";
-import MarketAnalytics from "./pages/MarketAnalytics";
 import { CurrentUserProvider } from "./state/currentUser";
+import MarketAnalytics from "./pages/MarketAnalytics";
 
 function App() {
   return (
